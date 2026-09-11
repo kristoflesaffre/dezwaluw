@@ -1,0 +1,379 @@
+{
+  "checked": "2026-09-11",
+  "fixtures": [
+    {
+      "date": "2026-09-11",
+      "type": "beker",
+      "home": "Zenakalm",
+      "away": "De Zwaluw",
+      "score": null,
+      "url": "https://www.atc-tafelvoetbal.be/wedstrijden/2985",
+      "venue": "Cj's",
+      "address": "Alfons Schneiderlaan 237, 2100 Deurne"
+    },
+    {
+      "date": "2026-09-18",
+      "type": "competitie",
+      "home": "NXT",
+      "away": "De Zwaluw",
+      "score": null,
+      "url": "https://www.atc-tafelvoetbal.be/wedstrijden/3008",
+      "venue": "Hanenberg",
+      "address": "Hodonk 63, 2470 Retie"
+    },
+    {
+      "date": "2026-09-25",
+      "type": "competitie",
+      "home": "De Zwaluw",
+      "away": "BP Ratten",
+      "score": null,
+      "url": "https://www.atc-tafelvoetbal.be/wedstrijden/3009",
+      "venue": "Café De Zwaluw",
+      "address": "Molenstraat 47, 2550 Kontich"
+    },
+    {
+      "date": "2026-10-02",
+      "type": "competitie",
+      "home": "De Zwaluw",
+      "away": "Halverwegen",
+      "score": null,
+      "url": "https://www.atc-tafelvoetbal.be/wedstrijden/3018",
+      "venue": "Café De Zwaluw",
+      "address": "Molenstraat 47, 2550 Kontich"
+    },
+    {
+      "date": "2026-10-09",
+      "type": "beker",
+      "home": "De Zwaluw",
+      "away": "Zenakalm",
+      "score": null,
+      "url": "https://www.atc-tafelvoetbal.be/wedstrijden/3557",
+      "venue": "Café De Zwaluw",
+      "address": "Molenstraat 47, 2550 Kontich"
+    },
+    {
+      "date": "2026-10-16",
+      "type": "competitie",
+      "home": "Y&O",
+      "away": "De Zwaluw",
+      "score": null,
+      "url": "https://www.atc-tafelvoetbal.be/wedstrijden/3020",
+      "venue": "'t Klaverke",
+      "address": "Dorp 2, 2861 Sint-Katelijne-Waver"
+    },
+    {
+      "date": "2026-10-23",
+      "type": "competitie",
+      "home": "De Zwaluw",
+      "away": "Peeke Binne",
+      "score": null,
+      "url": "https://www.atc-tafelvoetbal.be/wedstrijden/3027",
+      "venue": "Café De Zwaluw",
+      "address": "Molenstraat 47, 2550 Kontich"
+    },
+    {
+      "date": "2026-11-20",
+      "type": "competitie",
+      "home": "Paradijske ('t)",
+      "away": "De Zwaluw",
+      "score": null,
+      "url": "https://www.atc-tafelvoetbal.be/wedstrijden/3031",
+      "venue": "Paradijs",
+      "address": "Mechelbaan 725, 2580 Peulis (Putte)"
+    },
+    {
+      "date": "2026-11-27",
+      "type": "competitie",
+      "home": "De Zwaluw",
+      "away": "Roadhouse",
+      "score": null,
+      "url": "https://www.atc-tafelvoetbal.be/wedstrijden/3036",
+      "venue": "Café De Zwaluw",
+      "address": "Molenstraat 47, 2550 Kontich"
+    },
+    {
+      "date": "2026-12-04",
+      "type": "competitie",
+      "home": "Foosforce",
+      "away": "De Zwaluw",
+      "score": null,
+      "url": "https://www.atc-tafelvoetbal.be/wedstrijden/3042",
+      "venue": "Ter Smisse",
+      "address": "Louis Van Regenmortellei 6, 2150 Borsbeek"
+    },
+    {
+      "date": "2026-12-18",
+      "type": "competitie",
+      "home": "De Zwaluw",
+      "away": "Zenakalm",
+      "score": null,
+      "url": "https://www.atc-tafelvoetbal.be/wedstrijden/3045",
+      "venue": "Café De Zwaluw",
+      "address": "Molenstraat 47, 2550 Kontich"
+    },
+    {
+      "date": "2027-01-15",
+      "type": "competitie",
+      "home": "De Zwaluw",
+      "away": "NXT",
+      "score": null,
+      "url": "https://www.atc-tafelvoetbal.be/wedstrijden/3053",
+      "venue": "Café De Zwaluw",
+      "address": "Molenstraat 47, 2550 Kontich"
+    },
+    {
+      "date": "2027-01-22",
+      "type": "competitie",
+      "home": "BP Ratten",
+      "away": "De Zwaluw",
+      "score": null,
+      "url": "https://www.atc-tafelvoetbal.be/wedstrijden/3054",
+      "venue": "Café De Zwaluw",
+      "address": "Molenstraat 47, 2550 Kontich"
+    },
+    {
+      "date": "2027-01-29",
+      "type": "competitie",
+      "home": "Halverwegen",
+      "away": "De Zwaluw",
+      "score": null,
+      "url": "https://www.atc-tafelvoetbal.be/wedstrijden/3063",
+      "venue": "Wranglers Roadhouse",
+      "address": "Liersesteenweg 17, 2221 Booischot"
+    },
+    {
+      "date": "2027-02-19",
+      "type": "competitie",
+      "home": "De Zwaluw",
+      "away": "Y&O",
+      "score": null,
+      "url": "https://www.atc-tafelvoetbal.be/wedstrijden/3065",
+      "venue": "Café De Zwaluw",
+      "address": "Molenstraat 47, 2550 Kontich"
+    },
+    {
+      "date": "2027-02-26",
+      "type": "competitie",
+      "home": "Peeke Binne",
+      "away": "De Zwaluw",
+      "score": null,
+      "url": "https://www.atc-tafelvoetbal.be/wedstrijden/3072",
+      "venue": "Jake's Place",
+      "address": "Boskant 10, 2260 Westerlo"
+    },
+    {
+      "date": "2027-03-19",
+      "type": "competitie",
+      "home": "De Zwaluw",
+      "away": "Paradijske ('t)",
+      "score": null,
+      "url": "https://www.atc-tafelvoetbal.be/wedstrijden/3076",
+      "venue": "Café De Zwaluw",
+      "address": "Molenstraat 47, 2550 Kontich"
+    },
+    {
+      "date": "2027-03-26",
+      "type": "competitie",
+      "home": "Roadhouse",
+      "away": "De Zwaluw",
+      "score": null,
+      "url": "https://www.atc-tafelvoetbal.be/wedstrijden/3081",
+      "venue": "Wranglers Roadhouse",
+      "address": "Liersesteenweg 17, 2221 Booischot"
+    },
+    {
+      "date": "2027-04-16",
+      "type": "competitie",
+      "home": "De Zwaluw",
+      "away": "Foosforce",
+      "score": null,
+      "url": "https://www.atc-tafelvoetbal.be/wedstrijden/3087",
+      "venue": "Café De Zwaluw",
+      "address": "Molenstraat 47, 2550 Kontich"
+    },
+    {
+      "date": "2027-04-23",
+      "type": "competitie",
+      "home": "Zenakalm",
+      "away": "De Zwaluw",
+      "score": null,
+      "url": "https://www.atc-tafelvoetbal.be/wedstrijden/3090",
+      "venue": "Cj's",
+      "address": "Alfons Schneiderlaan 237, 2100 Deurne"
+    }
+  ],
+  "players": [
+    {
+      "name": "P. De Bie",
+      "member": "A7827",
+      "ranking": "2P",
+      "url": "https://www.atc-tafelvoetbal.be/players/201"
+    },
+    {
+      "name": "T. Choi",
+      "member": "A4005",
+      "ranking": "2P",
+      "url": "https://www.atc-tafelvoetbal.be/players/139"
+    },
+    {
+      "name": "K. Lesaffre",
+      "member": "A5391",
+      "ranking": "2P",
+      "url": "https://www.atc-tafelvoetbal.be/players/554"
+    },
+    {
+      "name": "J. Peeters",
+      "member": "A4670",
+      "ranking": "2P",
+      "url": "https://www.atc-tafelvoetbal.be/players/759"
+    },
+    {
+      "name": "G. Jacobs",
+      "member": "A5414",
+      "ranking": "1P",
+      "url": "https://www.atc-tafelvoetbal.be/players/483"
+    },
+    {
+      "name": "P. Godefroy",
+      "member": "A8102",
+      "ranking": "2P",
+      "url": "https://www.atc-tafelvoetbal.be/players/403"
+    },
+    {
+      "name": "D. Loos",
+      "member": "A7958",
+      "ranking": "1P",
+      "url": "https://www.atc-tafelvoetbal.be/players/569"
+    },
+    {
+      "name": "D. De Bie",
+      "member": "A7826",
+      "ranking": "2P",
+      "url": "https://www.atc-tafelvoetbal.be/players/200"
+    },
+    {
+      "name": "E. Staepelaere",
+      "member": "A5390",
+      "ranking": "3P",
+      "url": "https://www.atc-tafelvoetbal.be/players/937"
+    },
+    {
+      "name": "F. Verhenne",
+      "member": "A5392",
+      "ranking": "2P",
+      "url": "https://www.atc-tafelvoetbal.be/players/1608"
+    },
+    {
+      "name": "D. Van Mol",
+      "member": "A4948",
+      "ranking": "3P",
+      "url": "https://www.atc-tafelvoetbal.be/players/1352"
+    }
+  ],
+  "other": [
+    {
+      "date": "2026-09-04",
+      "type": "Andere"
+    },
+    {
+      "date": "2026-10-30",
+      "type": "Beker"
+    },
+    {
+      "date": "2026-11-06",
+      "type": "Inhaaldag"
+    },
+    {
+      "date": "2026-11-13",
+      "type": "Beker"
+    },
+    {
+      "date": "2026-12-11",
+      "type": "Beker"
+    },
+    {
+      "date": "2026-12-25",
+      "type": "Inhaaldag"
+    },
+    {
+      "date": "2027-01-01",
+      "type": "Inhaaldag"
+    },
+    {
+      "date": "2027-01-08",
+      "type": "Beker"
+    },
+    {
+      "date": "2027-02-05",
+      "type": "Inhaaldag"
+    },
+    {
+      "date": "2027-02-12",
+      "type": "Inhaaldag"
+    },
+    {
+      "date": "2027-02-27",
+      "type": "Kampioenschappen"
+    },
+    {
+      "date": "2027-02-28",
+      "type": "Kampioenschappen"
+    },
+    {
+      "date": "2027-03-05",
+      "type": "Beker"
+    },
+    {
+      "date": "2027-03-06",
+      "type": "Kampioenschappen"
+    },
+    {
+      "date": "2027-03-07",
+      "type": "Kampioenschappen"
+    },
+    {
+      "date": "2027-03-12",
+      "type": "Beker"
+    },
+    {
+      "date": "2027-03-13",
+      "type": "Kampioenschappen"
+    },
+    {
+      "date": "2027-03-14",
+      "type": "Kampioenschappen"
+    },
+    {
+      "date": "2027-04-02",
+      "type": "Inhaaldag"
+    },
+    {
+      "date": "2027-04-09",
+      "type": "Inhaaldag"
+    },
+    {
+      "date": "2027-04-30",
+      "type": "Beker"
+    },
+    {
+      "date": "2027-05-07",
+      "type": "Beker"
+    },
+    {
+      "date": "2027-05-14",
+      "type": "Beker"
+    },
+    {
+      "date": "2027-05-21",
+      "type": "Beker"
+    },
+    {
+      "date": "2027-05-28",
+      "type": "Beker"
+    },
+    {
+      "date": "2027-06-04",
+      "type": "Beker"
+    }
+  ]
+}
