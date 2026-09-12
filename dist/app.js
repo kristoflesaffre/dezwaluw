@@ -60,6 +60,7 @@ function selectCalendarTab(root,name){
   if(panel)panel.hidden=!on;
  });
  const active=tabs.find(tab=>tab.dataset.tab===name)||tabs[0];
+ if(active&&active.scrollIntoView)active.scrollIntoView({inline:'nearest',block:'nearest',behavior:'instant'});
  const n=Number(active.dataset.count||0);
  const count=document.querySelector('#result-count');
  if(count)count.textContent=`${n} ${resultCountLabel(active.dataset.tab,n)} · Seizoen 2026–2027`;
