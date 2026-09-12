@@ -60,6 +60,12 @@ test('players who have not played yet sit below everyone who already has a match
   const fabian = html.indexOf('Fabian Verhenne');
   assert.ok(peter > 0 && tseng > 0);
   assert.ok(Math.max(peter, tseng) < Math.min(dave, fabian));
+  const eric = html.indexOf('Eric Staepelaere');
+  const dirk = html.lastIndexOf('D. De Bie');
+  const lastBeforeDirk = Math.max(eric, dave, fabian, peter);
+  assert.ok(eric > fabian);
+  assert.ok(dirk > eric);
+  assert.ok(lastBeforeDirk < dirk);
 });
 
 test('player points follow the Zenakalm cup sheet', () => {

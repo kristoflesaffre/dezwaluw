@@ -21,8 +21,11 @@ function resultCountLabel(tab,n){
  if(tab==='played')return n===1?'gespeelde wedstrijd':'gespeelde wedstrijden';
  return 'spelers in het klassement';
 }
+function klassementPin(p){return p.member==='A7826'?2:p.member==='A5390'?1:0}
 function rankedPlayers(){
  return [...clubData.players].sort((a,b)=>{
+  const pin=klassementPin(a)-klassementPin(b);
+  if(pin)return pin;
   const points=(Number(b.points)||0)-(Number(a.points)||0);
   if(points)return points;
   const played=Number(Boolean(b.played))-Number(Boolean(a.played));
@@ -36,7 +39,7 @@ function klassementHTML(){
  let lastKey=null,lastRank=0;
  return `<ol class="klassement">${rows.map((p,i)=>{
   const points=Number(p.points)||0;
-  const key=points+':'+(p.played?1:0);
+  const key=klassementPin(p)+':'+points+':'+(p.played?1:0);
   const rank=key===lastKey?lastRank:i+1;
   lastKey=key;lastRank=rank;
   const lead=points===top&&top>0;
