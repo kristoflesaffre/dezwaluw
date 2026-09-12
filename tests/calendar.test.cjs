@@ -98,4 +98,6 @@ test('away matches open Google Maps from the overview; past matches are marked',
   assert.doesNotMatch(fixtures.innerHTML, /Route openen/);
   assert.match(nextLink.href, /maps\/dir/);
   assert.equal(nextLink.textContent, 'Route');
+  assert.match(fixtures.innerHTML, /22u/);
+  assert.doesNotMatch(fixtures.innerHTML, /Uur niet vermeld/);
 });
