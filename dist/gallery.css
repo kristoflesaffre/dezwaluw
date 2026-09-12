@@ -7,10 +7,10 @@
 .portrait-grid{display:grid;grid-template-columns:repeat(5,minmax(0,1fr));gap:38px 22px}
 .portrait-card{min-width:0}
 .portrait-open{display:block}
-.portrait-image{position:relative;display:block;overflow:hidden;aspect-ratio:1;background:#183444;border:1px solid var(--line);isolation:isolate}
-.portrait-image img{width:100%;height:100%;object-fit:contain;filter:grayscale(1) contrast(1.04);opacity:.88;transition:filter .35s,opacity .35s,transform .45s cubic-bezier(.2,.7,.2,1)}
-.portrait-image:after{content:'';position:absolute;inset:0;background:#183e51;mix-blend-mode:color;opacity:.35;pointer-events:none;transition:opacity .35s}
-.portrait-expand{position:absolute;right:10px;bottom:10px;display:grid;place-items:center;width:34px;height:34px;background:var(--bg);color:var(--accent);font-size:24px;z-index:1;border:1px solid var(--line)}
+.portrait-image{position:relative;display:block;aspect-ratio:1;background:transparent;border:0;isolation:isolate}
+.portrait-image img{width:100%;height:100%;object-fit:contain;clip-path:circle(49.5% at 50% 50%);filter:grayscale(1) contrast(1.04);opacity:.88;transition:filter .35s,opacity .35s,transform .45s cubic-bezier(.2,.7,.2,1)}
+.portrait-image:after{content:'';position:absolute;inset:0;clip-path:circle(49.5% at 50% 50%);background:#183e51;mix-blend-mode:color;opacity:.35;pointer-events:none;transition:opacity .35s}
+.portrait-expand{position:absolute;right:10px;bottom:10px;display:grid;place-items:center;width:34px;height:34px;border-radius:50%;background:var(--bg);color:var(--accent);font-size:24px;z-index:1;border:1px solid var(--line)}
 .portrait-open:hover img,.portrait-open:focus-visible img{filter:none;opacity:1;transform:scale(1.025)}
 .portrait-open:hover .portrait-image:after,.portrait-open:focus-visible .portrait-image:after{opacity:0}
 .portrait-open:hover .portrait-expand,.portrait-open:focus-visible .portrait-expand{background:var(--accent);color:var(--bg)}
@@ -38,7 +38,7 @@ html.portrait-is-open{overflow:hidden;scrollbar-gutter:stable}
 .portrait-viewer .viewer-close>span{font-size:27px;line-height:1}
 .viewer-stage{display:grid;grid-template-columns:56px minmax(0,1fr) 56px;gap:24px;align-items:center;min-height:0}
 .viewer-picture{height:100%;min-height:0;position:relative;display:flex;justify-content:center;align-items:center;touch-action:pan-y pinch-zoom}
-.viewer-image{width:100%;height:100%;object-fit:contain;min-height:0;user-select:none;-webkit-user-drag:none}
+.viewer-image{width:auto;height:auto;max-width:100%;max-height:100%;aspect-ratio:1;clip-path:circle(49.5% at 50% 50%);object-fit:contain;min-height:0;user-select:none;-webkit-user-drag:none}
 .viewer-image.loading{opacity:.3}
 .viewer-error{position:absolute;inset:0;align-content:center;text-align:center;padding:24px;background:var(--bg);font-size:16px;line-height:1.8}
 .viewer-error[hidden]{display:none}
