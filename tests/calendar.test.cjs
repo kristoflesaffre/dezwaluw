@@ -15,12 +15,10 @@ function setup() {
   const nextTeams = { innerHTML: '' };
   const nextDate = { innerHTML: '' };
   const matchLabel = { innerHTML: '' };
-  const snapshot = { textContent: '' };
   const document = {
     querySelector(sel) {
       if (sel === '#fixtures') return fixtures;
       if (sel === '#result-count') return resultCount;
-      if (sel === '.snapshot') return snapshot;
       if (sel === '.next-match .round-link') return nextLink;
       if (sel === '.next-teams') return nextTeams;
       if (sel === '.next-date') return nextDate;
