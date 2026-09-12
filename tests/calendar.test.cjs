@@ -11,7 +11,7 @@ const source = fs.readFileSync(path.join(root, 'app.js'), 'utf8');
 function setup() {
   const fixtures = { innerHTML: '', querySelector() { return null; }, querySelectorAll() { return []; } };
   const resultCount = { textContent: '' };
-  const nextLink = { href: '', classList: { add() {}, remove() {} }, setAttribute() {}, textContent: '' };
+  const nextLink = { href: '', classList: { add() {}, remove() {} }, setAttribute() {}, textContent: '', innerHTML: '' };
   const nextTeams = { innerHTML: '' };
   const nextDate = { innerHTML: '' };
   const matchLabel = { innerHTML: '' };
@@ -114,7 +114,9 @@ test('away matches open Google Maps from the overview; past matches are marked',
   assert.match(fixtures.innerHTML, /Route naar Hanenberg/);
   assert.doesNotMatch(fixtures.innerHTML, /Route openen/);
   assert.match(nextLink.href, /maps\/dir/);
-  assert.equal(nextLink.textContent, 'Route');
+  assert.match(nextLink.innerHTML, /class="pin-icon"/);
+  assert.match(nextLink.innerHTML, /Route/);
+  assert.match(fixtures.innerHTML, /class="pin-icon"/);
   assert.match(fixtures.innerHTML, /22u/);
   assert.doesNotMatch(fixtures.innerHTML, /Uur niet vermeld/);
 });
