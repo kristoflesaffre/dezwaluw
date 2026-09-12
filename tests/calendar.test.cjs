@@ -9,7 +9,7 @@ const html = fs.readFileSync(path.join(root, 'index.html'), 'utf8');
 const source = fs.readFileSync(path.join(root, 'app.js'), 'utf8');
 
 function setup() {
-  const fixtures = { innerHTML: '', querySelectorAll() { return []; } };
+  const fixtures = { innerHTML: '', querySelector() { return null; }, querySelectorAll() { return []; } };
   const resultCount = { textContent: '' };
   const nextLink = { href: '', classList: { add() {}, remove() {} }, setAttribute() {}, textContent: '' };
   const nextTeams = { innerHTML: '' };
@@ -62,14 +62,31 @@ function setup() {
 test('the calendar lists every cup and league match without a show-more control', () => {
   assert.doesNotMatch(html, /id="show-more"/);
   assert.doesNotMatch(html, /calendar-tools|Speelplaats|data-type="competitie"/);
-  assert.match(html, />LOCATIE</);
+  assert.doesNotMatch(html, /calendar-caption/);
   const { fixtures, resultCount } = setup();
-  assert.match(fixtures.innerHTML, /Gespeeld/);
+  assert.match(fixtures.innerHTML, /role="tablist"/);
+  assert.match(fixtures.innerHTML, /id="tab-upcoming"[^>]*aria-selected="true"/);
+  assert.match(fixtures.innerHTML, /id="tab-played"[^>]*aria-selected="false"/);
+  assert.match(fixtures.innerHTML, />LOCATIE</);
+  assert.match(fixtures.innerHTML, /id="panel-played"[^>]*hidden/);
   assert.match(fixtures.innerHTML, /Nog te spelen/);
+  assert.match(fixtures.innerHTML, /Gespeeld/);
   assert.equal([...fixtures.innerHTML.matchAll(/<details class="fixture/g)].length, 20);
   assert.match(fixtures.innerHTML, /BEKER VAN ATC/);
   assert.match(fixtures.innerHTML, /COMPETITIE · 1A/);
-  assert.match(resultCount.textContent, /20 wedstrijden/);
+  assert.match(resultCount.textContent, /nog te spelen/);
+});
+
+test('upcoming matches are the default tab and played matches sit on the second tab', () => {
+  const { fixtures, resultCount } = setup();
+  const upcoming = fixtures.innerHTML.indexOf('id="panel-upcoming"');
+  const played = fixtures.innerHTML.indexOf('id="panel-played"');
+  const nxt = fixtures.innerHTML.indexOf('NXT');
+  const zenakalmScore = fixtures.innerHTML.indexOf('11 – 7');
+  assert.ok(upcoming < played);
+  assert.ok(nxt > upcoming && nxt < played);
+  assert.ok(zenakalmScore > played);
+  assert.match(resultCount.textContent, /19 wedstrijden nog te spelen/);
 });
 
 test('away matches open Google Maps from the overview; past matches are marked', () => {

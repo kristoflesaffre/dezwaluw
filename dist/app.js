@@ -15,17 +15,52 @@ function mapsUrl(f){return 'https://www.google.com/maps/dir/?api=1&destination='
 function routeLink(f,label){return `<a class="route-link" href="${mapsUrl(f)}" target="_blank" rel="noopener" aria-label="Route naar ${escapeHTML(f.venue)}">${label}</a>`}
 function fixtureHTML(f,extraClass=''){const [year,month,day]=f.date.split('-');const home=isHome(f);const past=isPast(f);const maps=mapsUrl(f);const score=scoreOf(f);const result=ourResult(f);const middle=score?`<span class="score score-${result}">${scoreLabel(score)}</span>`:'<span class="vs">vs</span>';const note=score?`Uitslag ${scoreLabel(score)} · Uur niet vermeld · Volgens ATC-wedstrijdblad.`:`Uur niet vermeld · Nog geen uitslag bij controle op ${formatChecked(clubData.checked)}.`;const route=home?'':routeLink(f,'Route');const venueExtra=`<small>${score?scoreLabel(score):'Uur niet vermeld'}</small>`;return `<details class="fixture${past?' past':''}${extraClass}"><summary><time class="fixture-date" datetime="${f.date}"><strong>${day}</strong><span>${months[Number(month)-1]} ${year}</span></time><div><div class="fixture-teams"><span class="${home?'ours':''}">${escapeHTML(f.home)}</span>${middle}<span class="${!home?'ours':''}">${escapeHTML(f.away)}</span></div><div class="fixture-meta"><span class="${f.type==='beker'?'cup-tag':'competition'}">${f.type==='beker'?'BEKER VAN ATC':'COMPETITIE · 1A'}</span><span>·</span><span>${home?'THUIS':'UIT'}</span>${past?'<span class="played-tag">Gespeeld</span>':''}${route}</div></div><div class="venue">${escapeHTML(f.venue)}${venueExtra}</div><span class="fixture-toggle" aria-hidden="true">＋</span></summary><div class="fixture-detail"><p><strong>${escapeHTML(f.venue)}</strong><br>${escapeHTML(f.address)}<br>${note}</p><div class="fixture-links">${home?'':`<a href="${maps}" target="_blank" rel="noopener">Route ↗</a>`}<a href="${f.url}" target="_blank" rel="noopener">Wedstrijdblad ATC ↗</a></div></div></details>`}
 function bindRouteLinks(root){root.querySelectorAll('.route-link').forEach(link=>{['click','pointerdown'].forEach(type=>link.addEventListener(type,event=>event.stopPropagation()))})}
+function panelHTML(list,empty,extra){return list.length?list.map(f=>fixtureHTML(f,extra&&extra(f)||'')).join(''):`<p class="empty">${empty}</p>`}
+function resultCountLabel(n,upcoming){return upcoming?(n===1?'wedstrijd nog te spelen':'wedstrijden nog te spelen'):(n===1?'gespeelde wedstrijd':'gespeelde wedstrijden')}
+function selectCalendarTab(root,name){
+ const upcoming=name==='upcoming';
+ const tabUpcoming=root.querySelector('#tab-upcoming');
+ const tabPlayed=root.querySelector('#tab-played');
+ const panelUpcoming=root.querySelector('#panel-upcoming');
+ const panelPlayed=root.querySelector('#panel-played');
+ if(!tabUpcoming||!tabPlayed||!panelUpcoming||!panelPlayed)return;
+ tabUpcoming.setAttribute('aria-selected',String(upcoming));
+ tabPlayed.setAttribute('aria-selected',String(!upcoming));
+ tabUpcoming.tabIndex=upcoming?0:-1;
+ tabPlayed.tabIndex=upcoming?-1:0;
+ panelUpcoming.hidden=!upcoming;
+ panelPlayed.hidden=upcoming;
+ const n=Number((upcoming?tabUpcoming:tabPlayed).dataset.count||0);
+ const count=document.querySelector('#result-count');
+ if(count)count.textContent=`${n} ${resultCountLabel(n,upcoming)} · Seizoen 2026–2027`;
+}
+function bindCalendarTabs(root){
+ const tabs=[...root.querySelectorAll('[role="tab"]')];
+ tabs.forEach(tab=>{
+  tab.addEventListener('click',()=>selectCalendarTab(root,tab.dataset.tab));
+  tab.addEventListener('keydown',event=>{
+   const keys={ArrowRight:1,ArrowLeft:-1,Home:'start',End:'end'};
+   const move=keys[event.key];
+   if(move==null)return;
+   event.preventDefault();
+   const next=move==='start'?tabs[0]:move==='end'?tabs[tabs.length-1]:tabs[(tabs.indexOf(tab)+move+tabs.length)%tabs.length];
+   next.focus();
+   selectCalendarTab(root,next.dataset.tab);
+  });
+ });
+}
 function renderFixtures(){
  const fixtures=clubData.fixtures;
  const past=fixtures.filter(isPast);
  const upcoming=fixtures.filter(f=>!isPast(f));
  const nextUp=upcoming[0];
- const blocks=[];
- if(past.length){blocks.push('<p class="fixture-group">Gespeeld</p>');blocks.push(...past.map(f=>fixtureHTML(f)))}
- if(upcoming.length){blocks.push('<p class="fixture-group">Nog te spelen</p>');blocks.push(...upcoming.map(f=>fixtureHTML(f,f===nextUp?' next':'')))}
- document.querySelector('#fixtures').innerHTML=blocks.join('')||'<p class="empty">Geen wedstrijden voor deze selectie. Kies een andere speelplaats of wedstrijdsoort.</p>';
- document.querySelector('#result-count').textContent=`${fixtures.length} ${fixtures.length===1?'wedstrijd':'wedstrijden'} · beker en competitie · Seizoen 2026–2027`;
- bindRouteLinks(document.querySelector('#fixtures'));
+ const root=document.querySelector('#fixtures');
+ root.innerHTML=`<div class="calendar-tabs" role="tablist" aria-label="Wedstrijdstatus"><button type="button" role="tab" id="tab-upcoming" data-tab="upcoming" data-count="${upcoming.length}" aria-selected="true" aria-controls="panel-upcoming" tabindex="0">Nog te spelen <span>${upcoming.length}</span></button><button type="button" role="tab" id="tab-played" data-tab="played" data-count="${past.length}" aria-selected="false" aria-controls="panel-played" tabindex="-1">Gespeeld <span>${past.length}</span></button></div><div class="calendar-caption"><span>DATUM / WEDSTRIJD</span><span>LOCATIE</span></div><div id="panel-upcoming" class="calendar-panel" role="tabpanel" aria-labelledby="tab-upcoming">${panelHTML(upcoming,'Geen wedstrijden meer te spelen in deze kalender.',f=>f===nextUp?' next':'')}</div><div id="panel-played" class="calendar-panel" role="tabpanel" hidden aria-labelledby="tab-played">${panelHTML(past,'Nog geen gespeelde wedstrijden in deze kalender.')}</div>`;
+ const count=document.querySelector('#result-count');
+ if(count)count.textContent=`${upcoming.length} ${resultCountLabel(upcoming.length,true)} · Seizoen 2026–2027`;
+ selectCalendarTab(root,'upcoming');
+ bindRouteLinks(root);
+ bindCalendarTabs(root);
 }
 renderFixtures();
 document.querySelectorAll('.cup-match').forEach(card=>{const fixture=clubData.fixtures.find(f=>f.url===card.href);const score=fixture&&scoreOf(fixture);if(!score)return;const heading=card.querySelector('h3');if(heading)heading.innerHTML=`${escapeHTML(fixture.home)} <span class="cup-score score-${ourResult(fixture)}">${scoreLabel(score)}</span> ${escapeHTML(fixture.away)}`});
