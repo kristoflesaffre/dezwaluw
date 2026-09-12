@@ -1,3 +1,5 @@
 .DS_Store
 .sites-runtime/
 .vercel/
+.vercel
+.env*
