@@ -1,12 +1,15 @@
 {
-  "checked": "2026-09-11",
+  "checked": "2026-09-12",
   "fixtures": [
     {
       "date": "2026-09-11",
       "type": "beker",
       "home": "Zenakalm",
       "away": "De Zwaluw",
-      "score": null,
+      "score": {
+        "home": 11,
+        "away": 7
+      },
       "url": "https://www.atc-tafelvoetbal.be/wedstrijden/2985",
       "venue": "Cj's",
       "address": "Alfons Schneiderlaan 237, 2100 Deurne"

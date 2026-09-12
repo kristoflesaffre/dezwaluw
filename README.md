@@ -8,13 +8,17 @@ Data verified 2026-09-11 from:
 - https://www.atc-tafelvoetbal.be/calendar
 - Each linked match detail page (venues).
 
-No automatic data synchronization. Update data.json and the embedded clubData in app.js together; player list and standings are in index.html. Do not infer cup qualification from general cup dates or invent match start times.
+Scores for played matches come from the official ATC match pages (`<span class="score">` on `/wedstrijden/{id}`). Run `node scripts/update-scores.cjs` after a match day. That script fetches only fixtures dated today or earlier, writes `dist/data.json`, and keeps the embedded `clubData` in `dist/app.js` in sync. Do not invent scores, kick-off times, or cup qualification from general cup dates.
+
+No other automatic data synchronization. Player list and standings stay in `index.html` until they are updated from ATC separately.
 
 Generated swallow and Belgian wooden foosball imagery. Local fonts: Barlow Condensed and Manrope.
 
 Responsive calendar filters, expandable match details, full season, cup reservations, player links, standings, directions. CSS scroll parallax, pointer-responsive hero, entry animation, reduced-motion support and an animation toggle.
 
 Plain static hosting: dist/index.html. No build step.
+
+GitHub- en Vercel-project: zie [HOSTING.md](HOSTING.md). Niet een nieuwe repo of een nieuw Vercel-project aanmaken.
 
 ## Team portraits
 
