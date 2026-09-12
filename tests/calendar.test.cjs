@@ -76,10 +76,16 @@ test('the calendar lists every cup and league match without a show-more control'
   assert.match(fixtures.innerHTML, /Gespeeld/);
   assert.match(fixtures.innerHTML, /id="tab-klassement"/);
   assert.match(fixtures.innerHTML, /id="klassement"[^>]*hidden/);
-  assert.equal([...fixtures.innerHTML.matchAll(/<details class="fixture/g)].length, 20);
+  assert.equal([...fixtures.innerHTML.matchAll(/<details class="fixture(?! is-placeholder)/g)].length, 20);
+  assert.equal((fixtures.innerHTML.match(/class="fixture is-placeholder/g) || []).length, 12);
+  assert.equal((fixtures.innerHTML.match(/calendar-note is-inhaaldag/g) || []).length, 7);
+  assert.equal((fixtures.innerHTML.match(/calendar-note is-kampioenschappen/g) || []).length, 6);
   assert.match(fixtures.innerHTML, /class="cup-icon"/);
   assert.match(fixtures.innerHTML, /BEKER VAN ATC/);
   assert.match(fixtures.innerHTML, /COMPETITIE · 1A/);
+  assert.match(fixtures.innerHTML, />Beker</);
+  assert.match(fixtures.innerHTML, /Nog niet bekend/);
+  assert.match(fixtures.innerHTML, /Geen wedstrijd\. ATC houdt deze dag vrij voor inhaalwedstrijden/);
   assert.equal((fixtures.innerHTML.match(/class="cup-tag"/g) || []).length, (fixtures.innerHTML.match(/class="cup-icon"/g) || []).length);
   assert.match(resultCount.textContent, /nog te spelen/);
 });
@@ -93,7 +99,11 @@ test('upcoming matches are the default tab and played matches sit on the second 
   assert.ok(upcoming < played);
   assert.ok(nxt > upcoming && nxt < played);
   assert.ok(zenakalmScore > played);
-  assert.match(resultCount.textContent, /19 wedstrijden nog te spelen/);
+  assert.match(resultCount.textContent, /31 wedstrijden nog te spelen/);
+  const oct23 = fixtures.innerHTML.indexOf('2026-10-23');
+  const oct30 = fixtures.innerHTML.indexOf('2026-10-30');
+  const nov6 = fixtures.innerHTML.indexOf('2026-11-06');
+  assert.ok(oct23 > 0 && oct30 > oct23 && nov6 > oct30);
 });
 
 test('away matches open Google Maps from the overview; past matches are marked', () => {
