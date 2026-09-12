@@ -49,7 +49,8 @@ function setup() {
     navigator: {},
     IntersectionObserver: function () { this.observe = () => {}; },
     location: { hash: '' },
-    window: { addEventListener() {} },
+    window: { addEventListener() {}, scrollTo() {} },
+    history: { scrollRestoration: 'auto' },
     Intl,
     Date,
     Number,
@@ -76,8 +77,10 @@ test('the calendar lists every cup and league match without a show-more control'
   assert.match(fixtures.innerHTML, /id="tab-klassement"/);
   assert.match(fixtures.innerHTML, /id="klassement"[^>]*hidden/);
   assert.equal([...fixtures.innerHTML.matchAll(/<details class="fixture/g)].length, 20);
+  assert.match(fixtures.innerHTML, /class="cup-icon"/);
   assert.match(fixtures.innerHTML, /BEKER VAN ATC/);
   assert.match(fixtures.innerHTML, /COMPETITIE · 1A/);
+  assert.equal((fixtures.innerHTML.match(/class="cup-tag"/g) || []).length, (fixtures.innerHTML.match(/class="cup-icon"/g) || []).length);
   assert.match(resultCount.textContent, /nog te spelen/);
 });
 

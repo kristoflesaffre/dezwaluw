@@ -22,5 +22,8 @@ test('the site installs as De Zwaluw with the swallow app icon', () => {
     assert.ok(fs.statSync(path.join(root, src)).size > 0, src);
   }
   assert.match(fs.readFileSync(path.join(root, 'sw.js'), 'utf8'), /addEventListener\('fetch'/);
-  assert.match(fs.readFileSync(path.join(root, 'app.js'), 'utf8'), /serviceWorker\.register\('sw.js'\)/);
+  const app = fs.readFileSync(path.join(root, 'app.js'), 'utf8');
+  assert.match(app, /serviceWorker\.register\('sw.js'\)/);
+  assert.match(app, /scrollRestoration='manual'/);
+  assert.match(app, /pageshow/);
 });
