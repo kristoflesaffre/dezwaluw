@@ -61,6 +61,7 @@ function setup() {
 
 test('the calendar lists every cup and league match without a show-more control', () => {
   assert.doesNotMatch(html, /id="show-more"/);
+  assert.doesNotMatch(html, /calendar-tools|Speelplaats|data-type="competitie"/);
   assert.match(html, />LOCATIE</);
   const { fixtures, resultCount } = setup();
   assert.match(fixtures.innerHTML, /Gespeeld/);
