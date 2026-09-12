@@ -15,3 +15,9 @@ Generated swallow and Belgian wooden foosball imagery. Local fonts: Barlow Conde
 Responsive calendar filters, expandable match details, full season, cup reservations, player links, standings, directions. CSS scroll parallax, pointer-responsive hero, entry animation, reduced-motion support and an animation toggle.
 
 Plain static hosting: dist/index.html. No build step.
+
+## Team portraits
+
+Ten user-supplied portraits are stored in `dist/assets/players/` and linked to their ATC member IDs in the static gallery. D. De Bie remains listed without a photo. The gallery applies a cool monochrome treatment in CSS; the full-screen dialog displays each complete supplied photo in its original colours. Original Downloads files are untouched.
+
+`gallery.js` handles modal navigation, keyboard controls, touch swipes, focus restoration, image error fallback and optional browser fullscreen. `gallery.css` includes mobile layouts and reduced-motion support. Run `node --test tests/gallery.test.cjs` for asset mapping and interaction logic checks. Native browser rendering is not covered by these tests.
