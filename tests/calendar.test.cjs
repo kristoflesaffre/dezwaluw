@@ -61,7 +61,7 @@ function setup() {
 
 test('the calendar lists every cup and league match without a show-more control', () => {
   assert.doesNotMatch(html, /id="show-more"/);
-  assert.match(html, /LOCATIE \/ ROUTE/);
+  assert.match(html, />LOCATIE</);
   const { fixtures, resultCount } = setup();
   assert.match(fixtures.innerHTML, /Gespeeld/);
   assert.match(fixtures.innerHTML, /Nog te spelen/);
@@ -77,6 +77,7 @@ test('away matches open Google Maps from the overview; past matches are marked',
   assert.match(fixtures.innerHTML, /Gespeeld/);
   assert.match(fixtures.innerHTML, /maps\/dir\/\?api=1&destination=/);
   assert.match(fixtures.innerHTML, /Route naar Hanenberg/);
+  assert.doesNotMatch(fixtures.innerHTML, /Route openen/);
   assert.match(nextLink.href, /maps\/dir/);
   assert.equal(nextLink.textContent, 'Route');
 });
