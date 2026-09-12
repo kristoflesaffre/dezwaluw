@@ -41,4 +41,5 @@ vercel deploy --prod --scope lesaffrekristof-4863s-projects
 
 - Map: `~/Downloads/de-zwaluw`
 - Publieke files: `dist/index.html` en de rest van `dist/`
+- PWA-icoon: de zwaluw in `dist/assets/icon-192.png`, `icon-512.png` en `apple-touch-icon.png`
 - Uitslagen: `node scripts/update-scores.cjs` leest ATC-wedstrijdbladen (`/wedstrijden/{id}`) en schrijft scores naar `dist/data.json` + `dist/app.js`

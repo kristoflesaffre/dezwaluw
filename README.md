@@ -18,6 +18,8 @@ Responsive calendar filters, expandable match details, full season, cup reservat
 
 Plain static hosting: dist/index.html. No build step.
 
+Installable as a PWA. The swallow logo is the app icon (`dist/manifest.webmanifest` plus `dist/assets/icon-*.png` and `apple-touch-icon.png`).
+
 GitHub- en Vercel-project: zie [HOSTING.md](HOSTING.md). Niet een nieuwe repo of een nieuw Vercel-project aanmaken.
 
 ## Team portraits
