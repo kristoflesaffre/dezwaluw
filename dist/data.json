@@ -210,67 +210,111 @@
       "name": "P. De Bie",
       "member": "A7827",
       "ranking": "2P",
-      "url": "https://www.atc-tafelvoetbal.be/players/201"
+      "url": "https://www.atc-tafelvoetbal.be/players/201",
+      "display": "Peter De Bie",
+      "points": 0,
+      "photo": "assets/players/peter-de-bie.png",
+      "crown": "assets/players/peter-de-bie-kroon.png"
     },
     {
       "name": "T. Choi",
       "member": "A4005",
       "ranking": "2P",
-      "url": "https://www.atc-tafelvoetbal.be/players/139"
+      "url": "https://www.atc-tafelvoetbal.be/players/139",
+      "display": "Tseng-sing Choi",
+      "points": 0,
+      "photo": "assets/players/tseng-sing-choi.png",
+      "crown": "assets/players/tseng-sing-choi-kroon.png"
     },
     {
       "name": "K. Lesaffre",
       "member": "A5391",
       "ranking": "2P",
-      "url": "https://www.atc-tafelvoetbal.be/players/554"
+      "url": "https://www.atc-tafelvoetbal.be/players/554",
+      "display": "Kristof Lesaffre",
+      "points": 5,
+      "photo": "assets/players/kristof-lesaffre.png",
+      "crown": "assets/players/kristof-lesaffre-kroon.png"
     },
     {
       "name": "J. Peeters",
       "member": "A4670",
       "ranking": "2P",
-      "url": "https://www.atc-tafelvoetbal.be/players/759"
+      "url": "https://www.atc-tafelvoetbal.be/players/759",
+      "display": "Jeroen Peeters",
+      "points": 5,
+      "photo": "assets/players/jeroen-peeters.png",
+      "crown": "assets/players/jeroen-peeters-kroon.png"
     },
     {
       "name": "G. Jacobs",
       "member": "A5414",
       "ranking": "1P",
-      "url": "https://www.atc-tafelvoetbal.be/players/483"
+      "url": "https://www.atc-tafelvoetbal.be/players/483",
+      "display": "Gregory Jacobs",
+      "points": 2,
+      "photo": "assets/players/gregory-jacobs.png",
+      "crown": "assets/players/gregory-jacobs-kroon.png"
     },
     {
       "name": "P. Godefroy",
       "member": "A8102",
       "ranking": "2P",
-      "url": "https://www.atc-tafelvoetbal.be/players/403"
+      "url": "https://www.atc-tafelvoetbal.be/players/403",
+      "display": "Paul Godefroy",
+      "points": 2,
+      "photo": "assets/players/paul-godefroy.png",
+      "crown": "assets/players/paul-godefroy-kroon.png"
     },
     {
       "name": "D. Loos",
       "member": "A7958",
       "ranking": "1P",
-      "url": "https://www.atc-tafelvoetbal.be/players/569"
+      "url": "https://www.atc-tafelvoetbal.be/players/569",
+      "display": "David Loos",
+      "points": 0,
+      "photo": "assets/players/david-loos.png",
+      "crown": "assets/players/david-loos-kroon.png"
     },
     {
       "name": "D. De Bie",
       "member": "A7826",
       "ranking": "2P",
-      "url": "https://www.atc-tafelvoetbal.be/players/200"
+      "url": "https://www.atc-tafelvoetbal.be/players/200",
+      "display": "D. De Bie",
+      "points": 0,
+      "photo": "",
+      "crown": ""
     },
     {
       "name": "E. Staepelaere",
       "member": "A5390",
       "ranking": "3P",
-      "url": "https://www.atc-tafelvoetbal.be/players/937"
+      "url": "https://www.atc-tafelvoetbal.be/players/937",
+      "display": "Eric Staepelaere",
+      "points": 0,
+      "photo": "assets/players/eric-staepelaere.png",
+      "crown": ""
     },
     {
       "name": "F. Verhenne",
       "member": "A5392",
       "ranking": "2P",
-      "url": "https://www.atc-tafelvoetbal.be/players/1608"
+      "url": "https://www.atc-tafelvoetbal.be/players/1608",
+      "display": "Fabian Verhenne",
+      "points": 0,
+      "photo": "assets/players/fabian-verhenne.png",
+      "crown": "assets/players/fabian-verhenne-kroon.png"
     },
     {
       "name": "D. Van Mol",
       "member": "A4948",
       "ranking": "3P",
-      "url": "https://www.atc-tafelvoetbal.be/players/1352"
+      "url": "https://www.atc-tafelvoetbal.be/players/1352",
+      "display": "Dave Van Mol",
+      "points": 0,
+      "photo": "assets/players/dave-van-mol.png",
+      "crown": ""
     }
   ],
   "other": [
