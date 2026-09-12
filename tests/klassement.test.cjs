@@ -52,6 +52,16 @@ test('klassement ranks players by ATC points and crowns the joint leaders', () =
   assert.equal((html.match(/klassement-row is-lead/g) || []).length, 2);
 });
 
+test('players who have not played yet sit below everyone who already has a match', () => {
+  const html = render();
+  const peter = html.indexOf('Peter De Bie');
+  const tseng = html.indexOf('Tseng-sing Choi');
+  const dave = html.indexOf('Dave Van Mol');
+  const fabian = html.indexOf('Fabian Verhenne');
+  assert.ok(peter > 0 && tseng > 0);
+  assert.ok(Math.max(peter, tseng) < Math.min(dave, fabian));
+});
+
 test('player points follow the Zenakalm cup sheet', () => {
   const byMember = Object.fromEntries(data.players.map((p) => [p.member, p.points]));
   assert.equal(byMember.A5391, 5);
