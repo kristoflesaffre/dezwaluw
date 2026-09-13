@@ -38,8 +38,8 @@ test('the ICS file lists every confirmed De Zwaluw match from 22u to midnight', 
 
 test('the calendar page offers the ICS file for Google Calendar', () => {
   assert.match(html, /class="button primary calendar-add"/);
-  assert.match(html, /calendar\.google\.com\/calendar\/render\?cid=/);
-  assert.match(html, /dezwaluw-pi\.vercel\.app%2Fde-zwaluw\.ics/);
+  assert.match(html, /calendar\.google\.com\/calendar\/r\?cid=webcal:\/\/dezwaluw-pi\.vercel\.app\/de-zwaluw\.ics/);
+  assert.match(html, /href="de-zwaluw\.ics"/);
   assert.match(html, /class="calendar-icon"/);
   assert.match(html, /Zet in Google Agenda/);
 });
