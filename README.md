@@ -8,9 +8,9 @@ Data verified 2026-09-11 from:
 - https://www.atc-tafelvoetbal.be/calendar
 - Each linked match detail page (venues).
 
-Scores for played matches come from the official ATC match pages (`<span class="score">` on `/wedstrijden/{id}`). Run `node scripts/update-scores.cjs` after a match day. That script fetches only fixtures dated today or earlier, writes `dist/data.json`, and keeps the embedded `clubData` in `dist/app.js` in sync. Do not invent scores, kick-off times, or cup qualification from general cup dates.
+Scores, individual points and the 1A table come from ATC. `node scripts/update-scores.cjs` reads only De Zwaluw pages (`/clubs/186`, `/competition/35`, and `/wedstrijden/{id}` where De Zwaluw plays). It writes `dist/data.json`, keeps `clubData` in `dist/app.js` in sync, updates the standings markup, and rebuilds the ICS file. Do not invent scores, kick-off times, or cup qualification from empty cup dates.
 
-No other automatic data synchronization. Player list and standings stay in `index.html` until they are updated from ATC separately.
+GitHub Action `.github/workflows/atc-sync.yml` runs that script every Saturday morning (and manually via Actions → ATC-sync). A push to `main` publishes via Vercel. You can still run the script locally.
 
 Generated swallow and Belgian wooden foosball imagery. Local fonts: Barlow Condensed and Manrope.
 

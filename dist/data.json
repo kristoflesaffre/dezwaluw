@@ -1,5 +1,5 @@
 {
-  "checked": "2026-09-12",
+  "checked": "2026-09-13",
   "fixtures": [
     {
       "date": "2026-09-11",
@@ -215,7 +215,8 @@
       "points": 0,
       "photo": "assets/players/peter-de-bie.png",
       "crown": "assets/players/peter-de-bie-kroon.png",
-      "played": true
+      "played": true,
+      "games": 1
     },
     {
       "name": "T. Choi",
@@ -226,7 +227,8 @@
       "points": 0,
       "photo": "assets/players/tseng-sing-choi.png",
       "crown": "assets/players/tseng-sing-choi-kroon.png",
-      "played": true
+      "played": true,
+      "games": 1
     },
     {
       "name": "K. Lesaffre",
@@ -237,7 +239,8 @@
       "points": 5,
       "photo": "assets/players/kristof-lesaffre.png",
       "crown": "assets/players/kristof-lesaffre-kroon.png",
-      "played": true
+      "played": true,
+      "games": 1
     },
     {
       "name": "J. Peeters",
@@ -248,7 +251,8 @@
       "points": 5,
       "photo": "assets/players/jeroen-peeters.png",
       "crown": "assets/players/jeroen-peeters-kroon.png",
-      "played": true
+      "played": true,
+      "games": 1
     },
     {
       "name": "G. Jacobs",
@@ -259,7 +263,8 @@
       "points": 2,
       "photo": "assets/players/gregory-jacobs.png",
       "crown": "assets/players/gregory-jacobs-kroon.png",
-      "played": true
+      "played": true,
+      "games": 1
     },
     {
       "name": "P. Godefroy",
@@ -270,7 +275,8 @@
       "points": 2,
       "photo": "assets/players/paul-godefroy.png",
       "crown": "assets/players/paul-godefroy-kroon.png",
-      "played": true
+      "played": true,
+      "games": 1
     },
     {
       "name": "D. Loos",
@@ -281,7 +287,8 @@
       "points": 0,
       "photo": "assets/players/david-loos.png",
       "crown": "assets/players/david-loos-kroon.png",
-      "played": false
+      "played": false,
+      "games": 0
     },
     {
       "name": "D. De Bie",
@@ -292,7 +299,8 @@
       "points": 0,
       "photo": "",
       "crown": "",
-      "played": false
+      "played": false,
+      "games": 0
     },
     {
       "name": "E. Staepelaere",
@@ -303,7 +311,8 @@
       "points": 0,
       "photo": "assets/players/eric-staepelaere.png",
       "crown": "",
-      "played": false
+      "played": false,
+      "games": 0
     },
     {
       "name": "F. Verhenne",
@@ -314,7 +323,8 @@
       "points": 0,
       "photo": "assets/players/fabian-verhenne.png",
       "crown": "assets/players/fabian-verhenne-kroon.png",
-      "played": false
+      "played": false,
+      "games": 0
     },
     {
       "name": "D. Van Mol",
@@ -325,9 +335,114 @@
       "points": 0,
       "photo": "assets/players/dave-van-mol.png",
       "crown": "assets/players/dave-van-mol-kroon.png",
-      "played": false
+      "played": false,
+      "games": 0
     }
   ],
+  "standings": {
+    "rows": [
+      {
+        "rank": 1,
+        "team": "BP Ratten",
+        "points": 0,
+        "played": 0,
+        "won": 0,
+        "drawn": 0,
+        "lost": 0,
+        "sets": 0
+      },
+      {
+        "rank": 2,
+        "team": "Roadhouse",
+        "points": 0,
+        "played": 0,
+        "won": 0,
+        "drawn": 0,
+        "lost": 0,
+        "sets": 0
+      },
+      {
+        "rank": 3,
+        "team": "Foosforce",
+        "points": 0,
+        "played": 0,
+        "won": 0,
+        "drawn": 0,
+        "lost": 0,
+        "sets": 0
+      },
+      {
+        "rank": 4,
+        "team": "Zenakalm",
+        "points": 0,
+        "played": 0,
+        "won": 0,
+        "drawn": 0,
+        "lost": 0,
+        "sets": 0
+      },
+      {
+        "rank": 5,
+        "team": "NXT",
+        "points": 0,
+        "played": 0,
+        "won": 0,
+        "drawn": 0,
+        "lost": 0,
+        "sets": 0
+      },
+      {
+        "rank": 6,
+        "team": "De Zwaluw",
+        "points": 0,
+        "played": 0,
+        "won": 0,
+        "drawn": 0,
+        "lost": 0,
+        "sets": 0
+      },
+      {
+        "rank": 7,
+        "team": "Halverwegen",
+        "points": 0,
+        "played": 0,
+        "won": 0,
+        "drawn": 0,
+        "lost": 0,
+        "sets": 0
+      },
+      {
+        "rank": 8,
+        "team": "Y&O",
+        "points": 0,
+        "played": 0,
+        "won": 0,
+        "drawn": 0,
+        "lost": 0,
+        "sets": 0
+      },
+      {
+        "rank": 9,
+        "team": "Peeke Binne",
+        "points": 0,
+        "played": 0,
+        "won": 0,
+        "drawn": 0,
+        "lost": 0,
+        "sets": 0
+      },
+      {
+        "rank": 10,
+        "team": "Paradijske ('t)",
+        "points": 0,
+        "played": 0,
+        "won": 0,
+        "drawn": 0,
+        "lost": 0,
+        "sets": 0
+      }
+    ]
+  },
   "other": [
     {
       "date": "2026-09-04",
