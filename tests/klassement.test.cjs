@@ -51,6 +51,8 @@ test('klassement ranks players by ATC points and crowns the joint leaders', () =
   assert.doesNotMatch(html, /gregory-jacobs-kroon\.png/);
   assert.match(html, /gregory-jacobs\.png/);
   assert.equal((html.match(/klassement-row is-lead/g) || []).length, 2);
+  assert.match(html, /Jeroen Peeters<\/span><span class="klassement-games">1 wedstrijd gespeeld<\/span>/);
+  assert.match(html, /Dave Van Mol<\/span><span class="klassement-games">0 wedstrijden gespeeld<\/span>/);
 });
 
 test('players who have not played yet sit below everyone who already has a match', () => {

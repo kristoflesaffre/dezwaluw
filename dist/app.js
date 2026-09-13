@@ -53,6 +53,8 @@ function resultCountLabel(tab,n){
  return 'spelers in het klassement';
 }
 function klassementPin(p){return p.member==='A7826'?2:p.member==='A5390'?1:0}
+function gamesPlayed(p){const n=Number(p.games);return Number.isFinite(n)&&n>=0?n:p.played?1:0}
+function gamesLabel(n){return n===1?'1 wedstrijd gespeeld':`${n} wedstrijden gespeeld`}
 function rankedPlayers(){
  return [...clubData.players].sort((a,b)=>{
   const pin=klassementPin(a)-klassementPin(b);
@@ -76,8 +78,9 @@ function klassementHTML(){
   const lead=points===top&&top>0;
   const photo=lead&&p.crown?p.crown:p.photo;
   const name=escapeHTML(p.display||p.name);
+  const games=gamesPlayed(p);
   const image=photo?`<img class="klassement-photo" src="${photo}" width="160" height="160" alt="${name}"${lead?'':' loading="lazy"'}>`:`<span class="klassement-photo is-empty" aria-hidden="true">${escapeHTML((p.display||p.name).split(' ').map(w=>w[0]).join('').slice(0,2))}</span>`;
-  return `<li class="klassement-row${lead?' is-lead':''}"><span class="klassement-rank">${String(rank).padStart(2,'0')}</span>${image}<span class="klassement-name">${name}</span><span class="klassement-points">${points} <small>pt</small></span></li>`;
+  return `<li class="klassement-row${lead?' is-lead':''}"><span class="klassement-rank">${String(rank).padStart(2,'0')}</span>${image}<span class="klassement-player"><span class="klassement-name">${name}</span><span class="klassement-games">${gamesLabel(games)}</span></span><span class="klassement-points">${points} <small>pt</small></span></li>`;
  }).join('')}</ol>`;
 }
 function selectCalendarTab(root,name){
