@@ -15,10 +15,11 @@ test('the ICS file lists every confirmed De Zwaluw match from 22u to midnight', 
   assert.equal((ics.match(/BEGIN:VEVENT/g) || []).length, matches.length);
   assert.match(ics, /X-WR-CALNAME:De Zwaluw/);
   assert.match(ics, /X-WR-TIMEZONE:Europe\/Brussels/);
-  assert.match(ics, /SUMMARY:Beker · uit · Zenakalm vs De Zwaluw/);
-  assert.match(ics, /SUMMARY:Competitie 1A · uit · NXT vs De Zwaluw/);
-  assert.match(ics, /SUMMARY:Competitie 1A · thuis · De Zwaluw vs BP Ratten/);
+  assert.match(ics, /SUMMARY:Sjotter Zenakalm vs De Zwaluw/);
+  assert.match(ics, /SUMMARY:Sjotter NXT vs De Zwaluw/);
+  assert.match(ics, /SUMMARY:Sjotter De Zwaluw vs BP Ratten/);
   assert.match(ics, /LOCATION:Hanenberg\\, Hodonk 63\\, 2470 Retie/);
+  assert.match(ics, /LOCATION:Café De Zwaluw\\, Molenstraat 47\\, 2550 Kontich/);
   assert.match(ics, /Uitslag 11–7/);
   assert.doesNotMatch(ics, /Inhaaldag/);
   assert.doesNotMatch(ics, /Kampioenschappen/);
@@ -36,6 +37,9 @@ test('the ICS file lists every confirmed De Zwaluw match from 22u to midnight', 
 });
 
 test('the calendar page offers the ICS file for Google Calendar', () => {
-  assert.match(html, /href="de-zwaluw\.ics"/);
+  assert.match(html, /class="button primary calendar-add"/);
+  assert.match(html, /calendar\.google\.com\/calendar\/render\?cid=/);
+  assert.match(html, /dezwaluw-pi\.vercel\.app%2Fde-zwaluw\.ics/);
+  assert.match(html, /class="calendar-icon"/);
   assert.match(html, /Zet in Google Agenda/);
 });

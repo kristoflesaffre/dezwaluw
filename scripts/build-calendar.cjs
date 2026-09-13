@@ -68,9 +68,7 @@ function isMatch(fixture) {
 }
 
 function summaryOf(fixture) {
-  const side = fixture.home === 'De Zwaluw' ? 'thuis' : 'uit';
-  const kind = fixture.type === 'beker' ? 'Beker' : 'Competitie 1A';
-  return `${kind} · ${side} · ${fixture.home} vs ${fixture.away}`;
+  return `Sjotter ${fixture.home} vs ${fixture.away}`;
 }
 
 function descriptionOf(fixture) {
