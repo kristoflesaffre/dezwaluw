@@ -10,7 +10,9 @@ const manifest = JSON.parse(fs.readFileSync(path.join(root, 'manifest.webmanifes
 test('the site installs as De Zwaluw with the swallow app icon', () => {
   assert.match(html, /rel="manifest" href="manifest.webmanifest"/);
   assert.match(html, /rel="apple-touch-icon" href="assets\/apple-touch-icon.png"/);
-  assert.match(html, /assets\/icon-192.png/);
+  assert.match(html, /rel="icon"[^>]+assets\/favicon-32\.png/);
+  assert.match(html, /rel="icon"[^>]+assets\/favicon-48\.png/);
+  assert.doesNotMatch(html, /rel="icon"[^>]+icon-192\.png/);
   assert.equal(manifest.short_name, 'De Zwaluw');
   assert.equal(manifest.display, 'standalone');
   assert.equal(manifest.background_color, '#071b2b');
