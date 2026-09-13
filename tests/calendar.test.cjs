@@ -116,7 +116,7 @@ test('away matches open Google Maps from the overview; past matches are marked',
   assert.match(nextLink.innerHTML, /class="pin-icon"/);
   assert.match(nextLink.innerHTML, /Route/);
   assert.match(nextLink.innerHTML, /class="route-drive"/);
-  assert.match(nextLink.innerHTML, /Retie · ±60 min/);
+  assert.match(nextLink.innerHTML, /Retie · ±60 min vanuit Mechelen/);
   assert.match(fixtures.innerHTML, /class="drive-note"/);
   assert.match(fixtures.innerHTML, /Retie · ±60 min vanuit Mechelen/);
   assert.match(fixtures.innerHTML, /Putte · ±15 min vanuit Mechelen/);
