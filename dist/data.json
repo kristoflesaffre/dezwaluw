@@ -324,7 +324,7 @@
       "display": "Dave Van Mol",
       "points": 0,
       "photo": "assets/players/dave-van-mol.png",
-      "crown": "",
+      "crown": "assets/players/dave-van-mol-kroon.png",
       "played": false
     }
   ],
