@@ -115,6 +115,12 @@ test('away matches open Google Maps from the overview; past matches are marked',
   assert.match(nextLink.href, /maps\/dir/);
   assert.match(nextLink.innerHTML, /class="pin-icon"/);
   assert.match(nextLink.innerHTML, /Route/);
+  assert.match(nextLink.innerHTML, /class="route-drive"/);
+  assert.match(nextLink.innerHTML, /Retie · ±60 min/);
+  assert.match(fixtures.innerHTML, /class="drive-note"/);
+  assert.match(fixtures.innerHTML, /Retie · ±60 min vanuit Mechelen/);
+  assert.match(fixtures.innerHTML, /Putte · ±15 min vanuit Mechelen/);
+  assert.equal((fixtures.innerHTML.match(/class="drive-note"/g) || []).length, 10);
   assert.match(fixtures.innerHTML, /class="pin-icon"/);
   assert.match(fixtures.innerHTML, /22u/);
   assert.doesNotMatch(fixtures.innerHTML, /Uur niet vermeld/);
