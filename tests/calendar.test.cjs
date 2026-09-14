@@ -13,6 +13,7 @@ function setup() {
   const resultCount = { textContent: '' };
   const nextLink = { href: '', classList: { add() {}, remove() {} }, setAttribute() {}, textContent: '', innerHTML: '' };
   const nextTeams = { innerHTML: '' };
+  const nextPrev = { hidden: false, innerHTML: '', textContent: '', title: '', removeAttribute() { this.title = ''; } };
   const nextDate = { innerHTML: '' };
   const matchLabel = { innerHTML: '' };
   const document = {
@@ -21,6 +22,7 @@ function setup() {
       if (sel === '#result-count') return resultCount;
       if (sel === '.next-match .round-link') return nextLink;
       if (sel === '.next-teams') return nextTeams;
+      if (sel === '.next-prev-season') return nextPrev;
       if (sel === '.next-date') return nextDate;
       if (sel === '.match-label p') return matchLabel;
       if (sel === '.menu') return { getAttribute() { return 'false'; }, setAttribute() {}, addEventListener() {} };
@@ -57,7 +59,7 @@ function setup() {
     Boolean
   };
   vm.runInNewContext(source.replace(/if\('serviceWorker'[\s\S]*$/, ''), context);
-  return { fixtures, resultCount, nextLink, context };
+  return { fixtures, resultCount, nextLink, nextPrev, context };
 }
 
 test('the calendar lists every cup and league match without a show-more control', () => {
@@ -133,4 +135,13 @@ test('away matches open Google Maps from the overview; past matches are marked',
   assert.match(fixtures.innerHTML, /class="pin-icon"/);
   assert.match(fixtures.innerHTML, /22u/);
   assert.doesNotMatch(fixtures.innerHTML, /Uur niet vermeld/);
+});
+
+test('toont vorig seizoen van de tegenstander bij matches', () => {
+  const { fixtures, nextPrev } = setup();
+  assert.match(fixtures.innerHTML, /class="fixture-prev"[^>]*>VJ Nieuw</);
+  assert.match(fixtures.innerHTML, /class="fixture-prev"[^>]*>VJ 1A · 4e</);
+  assert.match(fixtures.innerHTML, /<dt>Vorig seizoen<\/dt><dd[^>]*>1A · 4e · als BP Stars<\/dd>/);
+  assert.match(fixtures.innerHTML, /<dt>Vorig seizoen<\/dt><dd[^>]*>2A · 1e<\/dd>/);
+  assert.match(nextPrev.innerHTML, /Vorig seizoen: <strong>Nieuw<\/strong>/);
 });

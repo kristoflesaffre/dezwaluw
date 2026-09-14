@@ -142,6 +142,14 @@ test('zet de reeksstand in de data', () => {
   assert.equal(next.standings.rows[1].team, 'De Zwaluw');
 });
 
+test('bewaart vorig-seizoen labels bij stand-sync', () => {
+  const next = applyStandings({
+    previousSeason: { teams: { 'De Zwaluw': { label: '1A · 8e' }, 'BP Ratten': { label: '1A · 4e', formerName: 'BP Stars' } } }
+  }, parseStandings(standingsHtml));
+  assert.equal(next.standings.rows.find((row) => row.team === 'De Zwaluw').previous, '1A · 8e');
+  assert.equal(next.standings.rows.find((row) => row.team === 'BP Ratten').previous, '1A · 4e');
+});
+
 test('vraagt geen wedstrijdbladen van andere ploegen', async () => {
   const requested = [];
   await collectMatchData([

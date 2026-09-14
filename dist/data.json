@@ -349,7 +349,8 @@
         "won": 0,
         "drawn": 0,
         "lost": 0,
-        "sets": 0
+        "sets": 0,
+        "previous": "1A · 4e"
       },
       {
         "rank": 2,
@@ -359,7 +360,8 @@
         "won": 0,
         "drawn": 0,
         "lost": 0,
-        "sets": 0
+        "sets": 0,
+        "previous": "1A · 5e"
       },
       {
         "rank": 3,
@@ -369,7 +371,8 @@
         "won": 0,
         "drawn": 0,
         "lost": 0,
-        "sets": 0
+        "sets": 0,
+        "previous": "1A · 1e"
       },
       {
         "rank": 4,
@@ -379,7 +382,8 @@
         "won": 0,
         "drawn": 0,
         "lost": 0,
-        "sets": 0
+        "sets": 0,
+        "previous": "2A · 1e"
       },
       {
         "rank": 5,
@@ -389,7 +393,8 @@
         "won": 0,
         "drawn": 0,
         "lost": 0,
-        "sets": 0
+        "sets": 0,
+        "previous": "Nieuw"
       },
       {
         "rank": 6,
@@ -399,7 +404,8 @@
         "won": 0,
         "drawn": 0,
         "lost": 0,
-        "sets": 0
+        "sets": 0,
+        "previous": "1A · 8e"
       },
       {
         "rank": 7,
@@ -409,7 +415,8 @@
         "won": 0,
         "drawn": 0,
         "lost": 0,
-        "sets": 0
+        "sets": 0,
+        "previous": "1A · 6e"
       },
       {
         "rank": 8,
@@ -419,7 +426,8 @@
         "won": 0,
         "drawn": 0,
         "lost": 0,
-        "sets": 0
+        "sets": 0,
+        "previous": "1A · 7e"
       },
       {
         "rank": 9,
@@ -429,7 +437,8 @@
         "won": 0,
         "drawn": 0,
         "lost": 0,
-        "sets": 0
+        "sets": 0,
+        "previous": "2A · 4e"
       },
       {
         "rank": 10,
@@ -439,7 +448,8 @@
         "won": 0,
         "drawn": 0,
         "lost": 0,
-        "sets": 0
+        "sets": 0,
+        "previous": "2A · 2e"
       }
     ]
   },
@@ -549,5 +559,72 @@
       "type": "Beker",
       "note": "Finales"
     }
-  ]
+  ],
+  "previousSeason": {
+    "season": "2025–2026",
+    "source": "https://www.atc-tafelvoetbal.be/competition/22",
+    "teams": {
+      "Foosforce": {
+        "division": "1A",
+        "rank": 1,
+        "label": "1A · 1e",
+        "note": "Winnaar Playoff 1"
+      },
+      "Roadhouse": {
+        "division": "1A",
+        "rank": 5,
+        "label": "1A · 5e",
+        "note": "Winnaar Playoff 2"
+      },
+      "Halverwegen": {
+        "division": "1A",
+        "rank": 6,
+        "label": "1A · 6e",
+        "note": "2e in Playoff 2"
+      },
+      "Y&O": {
+        "division": "1A",
+        "rank": 7,
+        "label": "1A · 7e",
+        "note": "3e in Playoff 2"
+      },
+      "De Zwaluw": {
+        "division": "1A",
+        "rank": 8,
+        "label": "1A · 8e",
+        "note": "4e in Playoff 2"
+      },
+      "Zenakalm": {
+        "division": "2A",
+        "rank": 1,
+        "label": "2A · 1e",
+        "note": "Kampioen 2A, gepromoveerd"
+      },
+      "Paradijske ('t)": {
+        "division": "2A",
+        "rank": 2,
+        "label": "2A · 2e",
+        "note": "Gepromoveerd uit 2A"
+      },
+      "Peeke Binne": {
+        "division": "2A",
+        "rank": 4,
+        "label": "2A · 4e",
+        "note": "Gepromoveerd uit 2A"
+      },
+      "NXT": {
+        "division": null,
+        "rank": null,
+        "label": "Nieuw",
+        "note": "Geen ATC-clubarchief in 2025"
+      },
+      "BP Ratten": {
+        "division": "1A",
+        "rank": 4,
+        "label": "1A · 4e",
+        "formerName": "BP Stars",
+        "note": "Als BP Stars · 4e in Playoff 1"
+      }
+    }
+  }
 }

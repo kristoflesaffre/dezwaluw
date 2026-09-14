@@ -337,16 +337,31 @@ function applyCalendar(data, calendar) {
   };
 }
 
+function previousLabelFor(team, data) {
+  const catalog = data?.previousSeason?.teams?.[team];
+  if (catalog && typeof catalog === 'object' && catalog.label) return catalog.label;
+  if (typeof catalog === 'string') return catalog;
+  const existing = (data?.standings?.rows || []).find((row) => row.team === team);
+  return existing?.previous || '';
+}
+
 function applyStandings(data, rows) {
   if (!rows.length) return data;
-  return { ...data, standings: { rows } };
+  const enriched = rows.map((row) => {
+    const previous = previousLabelFor(row.team, data) || row.previous || '';
+    return previous ? { ...row, previous } : { ...row };
+  });
+  return { ...data, standings: { rows: enriched } };
 }
 
 function standingsRowsHtml(rows) {
   return rows.map((row) => {
     const ours = row.team === TEAM;
     const name = ours ? `${TEAM} <span>WIJ</span>` : escapePlain(row.team);
-    return `<tr class="${ours ? 'our-team' : ''}"><td>${String(row.rank).padStart(2, '0')}</td><th scope="row">${name}</th><td>${row.played}</td><td>${row.won}</td><td>${row.drawn}</td><td>${row.lost}</td><td>${row.sets}</td></tr>`;
+    const prev = row.previous
+      ? ` <span class="prev-season" title="Eindstand reguliere competitie seizoen 2025–2026">${escapePlain(row.previous)}</span>`
+      : '';
+    return `<tr class="${ours ? 'our-team' : ''}"><td>${String(row.rank).padStart(2, '0')}</td><th scope="row">${name}${prev}</th><td>${row.played}</td><td>${row.won}</td><td>${row.drawn}</td><td>${row.lost}</td><td>${row.sets}</td></tr>`;
   }).join('');
 }
 
@@ -360,7 +375,7 @@ function syncStandingsPage(html, rows, checked) {
   const played = rows.some((row) => Number(row.played) > 0);
   let next = html.replace(
     /(<p class="source-note">)Stand op [\s\S]*?(<\/p><a class="text-link" href="https:\/\/www\.atc-tafelvoetbal\.be\/competition\/35")/,
-    `$1Stand op ${date}.<br>${played ? '' : 'Nog geen competitiewedstrijden gespeeld.<br>'}De volgorde volgt ATC.$2`
+    `$1Stand op ${date}.<br>${played ? '' : 'Nog geen competitiewedstrijden gespeeld.<br>'}De volgorde volgt ATC.<br>Grijs label = eindstand vorig seizoen (2025–2026).$2`
   );
   next = next.replace(
     /(<caption class="sr-only">Stand ATC reeks 1A, )[^<]+(<\/caption>[\s\S]*?<tbody>)[\s\S]*?(<\/tbody>)/,
@@ -452,6 +467,7 @@ module.exports = {
   applyScore,
   applyScores,
   applyStandings,
+  previousLabelFor,
   applyVenues,
   collectMatchData,
   collectScores,
