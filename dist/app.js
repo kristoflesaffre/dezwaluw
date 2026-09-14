@@ -50,11 +50,14 @@ function panelHTML(list,empty,extra){const rows=list.length?list.map(f=>rowHTML(
 function resultCountLabel(tab,n){
  if(tab==='upcoming')return n===1?'wedstrijd nog te spelen':'wedstrijden nog te spelen';
  if(tab==='played')return n===1?'gespeelde wedstrijd':'gespeelde wedstrijden';
+ if(tab==='aanwezigheid')return n===1?'speler in de aanwezigheid':'spelers in de aanwezigheid';
  return 'spelers in het klassement';
 }
 function klassementPin(p){return p.member==='A7826'?2:p.member==='A5390'?1:0}
 function gamesPlayed(p){const n=Number(p.games);return Number.isFinite(n)&&n>=0?n:p.played?1:0}
 function gamesLabel(n){return n===1?'1 wedstrijd gespeeld':`${n} wedstrijden gespeeld`}
+function attendanceLabel(n){return n===1?'1 aanwezigheid':`${n} aanwezigheden`}
+function byName(a,b){return String(a.display||a.name).localeCompare(b.display||b.name,'nl')}
 function rankedPlayers(){
  return [...clubData.players].sort((a,b)=>{
   const pin=klassementPin(a)-klassementPin(b);
@@ -63,8 +66,21 @@ function rankedPlayers(){
   if(points)return points;
   const played=Number(Boolean(b.played))-Number(Boolean(a.played));
   if(played)return played;
-  return String(a.display||a.name).localeCompare(b.display||b.name,'nl');
+  return byName(a,b);
  });
+}
+function rankedByAttendance(){
+ return [...clubData.players].sort((a,b)=>{
+  const games=gamesPlayed(b)-gamesPlayed(a);
+  if(games)return games;
+  return byName(a,b);
+ });
+}
+function playerRowHTML(p,{rank,lead,subtitle,score,unit}){
+ const photo=lead&&p.crown?p.crown:p.photo;
+ const name=escapeHTML(p.display||p.name);
+ const image=photo?`<img class="klassement-photo" src="${photo}" width="160" height="160" alt="${name}"${lead?'':' loading="lazy"'}>`:`<span class="klassement-photo is-empty" aria-hidden="true">${escapeHTML((p.display||p.name).split(' ').map(w=>w[0]).join('').slice(0,2))}</span>`;
+ return `<li class="klassement-row${lead?' is-lead':''}"><span class="klassement-rank">${String(rank).padStart(2,'0')}</span>${image}<span class="klassement-player"><span class="klassement-name">${name}</span><span class="klassement-games">${subtitle}</span></span><span class="klassement-points">${score} <small>${unit}</small></span></li>`;
 }
 function klassementHTML(){
  const rows=rankedPlayers();
@@ -75,12 +91,19 @@ function klassementHTML(){
   const key=klassementPin(p)+':'+points+':'+(p.played?1:0);
   const rank=key===lastKey?lastRank:i+1;
   lastKey=key;lastRank=rank;
-  const lead=points===top&&top>0;
-  const photo=lead&&p.crown?p.crown:p.photo;
-  const name=escapeHTML(p.display||p.name);
+  return playerRowHTML(p,{rank,lead:points===top&&top>0,subtitle:gamesLabel(gamesPlayed(p)),score:points,unit:'pt'});
+ }).join('')}</ol>`;
+}
+function aanwezigheidHTML(){
+ const rows=rankedByAttendance();
+ const top=Math.max(0,...rows.map(gamesPlayed));
+ let lastKey=null,lastRank=0;
+ return `<ol class="klassement aanwezigheid">${rows.map((p,i)=>{
   const games=gamesPlayed(p);
-  const image=photo?`<img class="klassement-photo" src="${photo}" width="160" height="160" alt="${name}"${lead?'':' loading="lazy"'}>`:`<span class="klassement-photo is-empty" aria-hidden="true">${escapeHTML((p.display||p.name).split(' ').map(w=>w[0]).join('').slice(0,2))}</span>`;
-  return `<li class="klassement-row${lead?' is-lead':''}"><span class="klassement-rank">${String(rank).padStart(2,'0')}</span>${image}<span class="klassement-player"><span class="klassement-name">${name}</span><span class="klassement-games">${gamesLabel(games)}</span></span><span class="klassement-points">${points} <small>pt</small></span></li>`;
+  const key=String(games);
+  const rank=key===lastKey?lastRank:i+1;
+  lastKey=key;lastRank=rank;
+  return playerRowHTML(p,{rank,lead:games===top&&top>0,subtitle:attendanceLabel(games),score:games,unit:'aanw'});
  }).join('')}</ol>`;
 }
 function selectCalendarTab(root,name){
@@ -121,10 +144,11 @@ function renderFixtures(){
  const playablePast=past.filter(isMatch);
  const nextUp=playableUpcoming.find(isMatch);
  const root=document.querySelector('#fixtures');
- root.innerHTML=`<div class="calendar-tabs" role="tablist" aria-label="Wedstrijden en klassement"><button type="button" role="tab" id="tab-upcoming" data-tab="upcoming" data-count="${playableUpcoming.length}" aria-selected="true" aria-controls="panel-upcoming" tabindex="0">Nog te spelen <span>${playableUpcoming.length}</span></button><button type="button" role="tab" id="tab-played" data-tab="played" data-count="${playablePast.length}" aria-selected="false" aria-controls="panel-played" tabindex="-1">Gespeeld <span>${playablePast.length}</span></button><button type="button" role="tab" id="tab-klassement" data-tab="klassement" data-count="${clubData.players.length}" aria-selected="false" aria-controls="klassement" tabindex="-1">Klassement</button></div><div id="panel-upcoming" class="calendar-panel" role="tabpanel" aria-labelledby="tab-upcoming">${panelHTML(upcoming,'Geen wedstrijden meer te spelen in deze kalender.',f=>f===nextUp?' next':'')}</div><div id="panel-played" class="calendar-panel" role="tabpanel" hidden aria-labelledby="tab-played">${panelHTML(past,'Nog geen gespeelde wedstrijden in deze kalender.')}</div><div id="klassement" class="calendar-panel" role="tabpanel" hidden aria-labelledby="tab-klassement">${klassementHTML()}</div>`;
+ root.innerHTML=`<div class="calendar-tabs" role="tablist" aria-label="Wedstrijden, klassement en aanwezigheid"><button type="button" role="tab" id="tab-upcoming" data-tab="upcoming" data-count="${playableUpcoming.length}" aria-selected="true" aria-controls="panel-upcoming" tabindex="0">Nog te spelen <span>${playableUpcoming.length}</span></button><button type="button" role="tab" id="tab-played" data-tab="played" data-count="${playablePast.length}" aria-selected="false" aria-controls="panel-played" tabindex="-1">Gespeeld <span>${playablePast.length}</span></button><button type="button" role="tab" id="tab-klassement" data-tab="klassement" data-count="${clubData.players.length}" aria-selected="false" aria-controls="klassement" tabindex="-1">Klassement</button><button type="button" role="tab" id="tab-aanwezigheid" data-tab="aanwezigheid" data-count="${clubData.players.length}" aria-selected="false" aria-controls="aanwezigheid" tabindex="-1">Aanwezigheid</button></div><div id="panel-upcoming" class="calendar-panel" role="tabpanel" aria-labelledby="tab-upcoming">${panelHTML(upcoming,'Geen wedstrijden meer te spelen in deze kalender.',f=>f===nextUp?' next':'')}</div><div id="panel-played" class="calendar-panel" role="tabpanel" hidden aria-labelledby="tab-played">${panelHTML(past,'Nog geen gespeelde wedstrijden in deze kalender.')}</div><div id="klassement" class="calendar-panel" role="tabpanel" hidden aria-labelledby="tab-klassement">${klassementHTML()}</div><div id="aanwezigheid" class="calendar-panel" role="tabpanel" hidden aria-labelledby="tab-aanwezigheid">${aanwezigheidHTML()}</div>`;
  const count=document.querySelector('#result-count');
  if(count)count.textContent=`${playableUpcoming.length} ${resultCountLabel('upcoming',playableUpcoming.length)} · Seizoen 2026–2027`;
- const start=typeof location!=='undefined'&&location.hash==='#klassement'?'klassement':'upcoming';
+ const hash=typeof location!=='undefined'?location.hash:'';
+ const start=hash==='#klassement'?'klassement':hash==='#aanwezigheid'?'aanwezigheid':'upcoming';
  selectCalendarTab(root,start);
  bindRouteLinks(root);
  bindFixtureAccordion(root);
@@ -142,7 +166,7 @@ function renderStandings(){
  box.innerHTML=`<table><caption class="sr-only">Stand ATC reeks 1A, ${date}</caption><thead><tr><th scope="col">#</th><th scope="col">TEAM</th><th scope="col"><abbr title="Gespeeld">GS</abbr></th><th scope="col"><abbr title="Gewonnen">W</abbr></th><th scope="col"><abbr title="Gelijk">G</abbr></th><th scope="col"><abbr title="Verloren">V</abbr></th><th scope="col">SETS</th></tr></thead><tbody>${rows.map(row=>{const ours=row.team==='De Zwaluw';return `<tr class="${ours?'our-team':''}"><td>${String(row.rank).padStart(2,'0')}</td><th scope="row">${ours?'De Zwaluw <span>WIJ</span>':escapeHTML(row.team)}</th><td>${Number(row.played)||0}</td><td>${Number(row.won)||0}</td><td>${Number(row.drawn)||0}</td><td>${Number(row.lost)||0}</td><td>${Number(row.sets)||0}</td></tr>`}).join('')}</tbody></table>`;
 }
 renderStandings();
-window.addEventListener('hashchange',()=>{const root=document.querySelector('#fixtures');if(root&&location.hash==='#klassement')selectCalendarTab(root,'klassement')});
+window.addEventListener('hashchange',()=>{const root=document.querySelector('#fixtures');if(!root)return;if(location.hash==='#klassement')selectCalendarTab(root,'klassement');if(location.hash==='#aanwezigheid')selectCalendarTab(root,'aanwezigheid')});
 document.querySelectorAll('.cup-match').forEach(card=>{const fixture=clubData.fixtures.find(f=>f.url===card.href);const score=fixture&&scoreOf(fixture);if(!score)return;const heading=card.querySelector('h3');if(heading)heading.innerHTML=`${escapeHTML(fixture.home)} <span class="cup-score score-${ourResult(fixture)}">${scoreLabel(score)}</span> ${escapeHTML(fixture.away)}`});
 const next=clubData.fixtures.find(f=>!scoreOf(f)&&f.date>=today)||clubData.fixtures.find(f=>f.date>=today);
 if(next){const [year,month,day]=next.date.split('-');const away=!isHome(next);document.querySelector('.match-label p').innerHTML=(next.type==='beker'?cupLabel():'COMPETITIE · 1A')+' <span>'+(away?'UIT':'THUIS')+'</span>';document.querySelector('.next-teams').innerHTML=`${isHome(next)?'<strong>De Zwaluw</strong>':escapeHTML(next.home)} <span>vs</span> ${!isHome(next)?'<strong>De Zwaluw</strong>':escapeHTML(next.away)}`;document.querySelector('.next-date').innerHTML=`<strong>${day} ${months[Number(month)-1].toUpperCase()}</strong><span>Vrijdag · ${year}</span>`;const nextLink=document.querySelector('.next-match .round-link');if(away){const hint=driveHint(next);nextLink.href=mapsUrl(next);nextLink.classList.add('is-route');nextLink.innerHTML=`<span class="route-main">${routeLabel('Route')}</span>${hint?`<span class="route-drive">${escapeHTML(hint)} vanuit Mechelen</span>`:''}`;nextLink.setAttribute('aria-label',hint?`Route naar ${next.venue}, ${hint} vanuit Mechelen`:`Route naar ${next.venue}`)}else{nextLink.href=next.url;nextLink.classList.remove('is-route');nextLink.textContent='↗';nextLink.setAttribute('aria-label',`${next.home} tegen ${next.away} op ATC`)}}else{document.querySelector('.next-match').innerHTML='<div><p class="eyebrow">SEIZOEN 2026–2027</p><p>Geen latere bevestigde wedstrijd in deze kalender. <a class="text-link" href="https://www.atc-tafelvoetbal.be/clubs/186" target="_blank" rel="noopener">Bekijk ATC voor nieuwe data ↗</a></p></div>'}
