@@ -74,6 +74,9 @@ test('the calendar lists every cup and league match without a show-more control'
   assert.match(fixtures.innerHTML, /Gespeeld/);
   assert.match(fixtures.innerHTML, /id="tab-klassement"/);
   assert.match(fixtures.innerHTML, /id="klassement"[^>]*hidden/);
+  const css = fs.readFileSync(path.join(root, 'style.css'), 'utf8');
+  assert.match(css, /\.calendar-tabs\{[^}]*flex-wrap:nowrap/);
+  assert.match(css, /\.calendar-tabs\{[^}]*overflow-x:auto/);
   assert.equal((fixtures.innerHTML.match(/<details class="fixture/g) || []).length, 20);
   assert.doesNotMatch(fixtures.innerHTML, /is-placeholder/);
   assert.equal((fixtures.innerHTML.match(/calendar-note is-beker/g) || []).length, 12);
