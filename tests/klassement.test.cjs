@@ -103,6 +103,15 @@ test('aanwezigheid ranks by match attendance and crowns joint leaders', () => {
   assert.match(panel, /tseng-sing-choi-kroon\.png/);
   const dave = panel.indexOf('Dave Van Mol');
   const kristof = panel.indexOf('Kristof Lesaffre');
+  const dirk = panel.lastIndexOf('D. De Bie');
   assert.ok(kristof > 0 && dave > 0);
   assert.ok(kristof < dave);
+  assert.ok(dirk > dave);
+  assert.ok(dirk === Math.max(
+    panel.indexOf('Dave Van Mol'),
+    panel.indexOf('David Loos'),
+    panel.indexOf('Eric Staepelaere'),
+    panel.indexOf('Fabian Verhenne'),
+    dirk
+  ));
 });

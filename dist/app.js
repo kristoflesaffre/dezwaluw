@@ -71,6 +71,8 @@ function rankedPlayers(){
 }
 function rankedByAttendance(){
  return [...clubData.players].sort((a,b)=>{
+  const pin=klassementPin(a)-klassementPin(b);
+  if(pin)return pin;
   const games=gamesPlayed(b)-gamesPlayed(a);
   if(games)return games;
   return byName(a,b);
@@ -100,7 +102,7 @@ function aanwezigheidHTML(){
  let lastKey=null,lastRank=0;
  return `<ol class="klassement aanwezigheid">${rows.map((p,i)=>{
   const games=gamesPlayed(p);
-  const key=String(games);
+  const key=klassementPin(p)+':'+games;
   const rank=key===lastKey?lastRank:i+1;
   lastKey=key;lastRank=rank;
   return playerRowHTML(p,{rank,lead:games===top&&top>0,subtitle:attendanceLabel(games),score:games,unit:'aanw'});
