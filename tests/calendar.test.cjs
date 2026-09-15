@@ -131,9 +131,8 @@ test('away matches open Google Maps from the overview; past matches are marked',
   assert.doesNotMatch(fixtures.innerHTML, /Retie · ±60 min vanuit Mechelen/);
   assert.doesNotMatch(fixtures.innerHTML, /Sint-Katelijne-Waver · ±15/);
   assert.equal((fixtures.innerHTML.match(/class="drive-note"/g) || []).length, 10);
-  assert.match(fixtures.innerHTML, /<dt>Aanvang<\/dt><dd>22u<\/dd>/);
+  assert.doesNotMatch(fixtures.innerHTML, /<dt>Aanvang<\/dt>/);
   assert.match(fixtures.innerHTML, /class="pin-icon"/);
-  assert.match(fixtures.innerHTML, /22u/);
   assert.doesNotMatch(fixtures.innerHTML, /Uur niet vermeld/);
 });
 
