@@ -52,8 +52,8 @@ test('klassement ranks players by ATC points and crowns the joint leaders', () =
   assert.doesNotMatch(panel, /gregory-jacobs-kroon\.png/);
   assert.match(panel, /gregory-jacobs\.png/);
   assert.equal((panel.match(/klassement-row is-lead/g) || []).length, 2);
-  assert.match(panel, /Jeroen Peeters<\/span><span class="klassement-games">1 wedstrijd gespeeld<\/span>/);
-  assert.match(panel, /Dave Van Mol<\/span><span class="klassement-games">0 wedstrijden gespeeld<\/span>/);
+  assert.match(panel, /Jeroen Peeters<\/span><span class="klassement-games">2 wedstrijden gespeeld<\/span>/);
+  assert.match(panel, /Dave Van Mol<\/span><span class="klassement-games">1 wedstrijd gespeeld<\/span>/);
 });
 
 test('players who have not played yet sit below everyone who already has a match', () => {
@@ -73,14 +73,14 @@ test('players who have not played yet sit below everyone who already has a match
   assert.ok(lastBeforeDirk < dirk);
 });
 
-test('player points follow the Zenakalm cup sheet', () => {
+test('player points follow de gespeelde ATC-bladen', () => {
   const byMember = Object.fromEntries(data.players.map((p) => [p.member, p.points]));
   assert.equal(byMember.A5391, 5);
   assert.equal(byMember.A4670, 5);
+  assert.equal(byMember.A7827, 4);
+  assert.equal(byMember.A4005, 4);
   assert.equal(byMember.A5414, 2);
   assert.equal(byMember.A8102, 2);
-  assert.equal(byMember.A7827, 0);
-  assert.equal(byMember.A4005, 0);
 });
 
 test('aanwezigheid ranks by match attendance and crowns joint leaders', () => {
@@ -89,23 +89,22 @@ test('aanwezigheid ranks by match attendance and crowns joint leaders', () => {
   assert.match(html, /id="aanwezigheid"[^>]*hidden/);
   const panel = html.slice(html.indexOf('id="aanwezigheid"'));
   assert.match(panel, /aanwezigheid/);
-  assert.match(panel, /1 <small>aanw<\/small>/);
+  assert.match(panel, /2 <small>aanw<\/small>/);
   assert.match(panel, /0 <small>aanw<\/small>/);
-  assert.match(panel, /1 aanwezigheid/);
+  assert.match(panel, /2 aanwezigheden/);
   assert.match(panel, /0 aanwezigheden/);
-  // Six players attended the first match → six joint attendance leaders with crowns
-  assert.equal((panel.match(/klassement-row is-lead/g) || []).length, 6);
-  assert.match(panel, /kristof-lesaffre-kroon\.png/);
+  const maxGames = Math.max(...data.players.map((player) => Number(player.games) || 0));
+  const leaders = data.players.filter((player) => (Number(player.games) || 0) === maxGames && player.member !== 'A7826');
+  assert.equal((panel.match(/klassement-row is-lead/g) || []).length, leaders.length);
   assert.match(panel, /jeroen-peeters-kroon\.png/);
   assert.match(panel, /peter-de-bie-kroon\.png/);
   assert.match(panel, /paul-godefroy-kroon\.png/);
-  assert.match(panel, /gregory-jacobs-kroon\.png/);
   assert.match(panel, /tseng-sing-choi-kroon\.png/);
   const dave = panel.indexOf('Dave Van Mol');
-  const kristof = panel.indexOf('Kristof Lesaffre');
+  const jeroen = panel.indexOf('Jeroen Peeters');
   const dirk = panel.lastIndexOf('D. De Bie');
-  assert.ok(kristof > 0 && dave > 0);
-  assert.ok(kristof < dave);
+  assert.ok(jeroen > 0 && dave > 0);
+  assert.ok(jeroen < dave);
   assert.ok(dirk > dave);
   assert.ok(dirk === Math.max(
     panel.indexOf('Dave Van Mol'),

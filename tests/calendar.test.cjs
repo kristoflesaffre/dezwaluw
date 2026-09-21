@@ -7,8 +7,26 @@ const vm = require('node:vm');
 const root = path.join(__dirname, '..', 'dist');
 const html = fs.readFileSync(path.join(root, 'index.html'), 'utf8');
 const source = fs.readFileSync(path.join(root, 'app.js'), 'utf8');
+const data = JSON.parse(fs.readFileSync(path.join(root, 'data.json'), 'utf8'));
 
-function setup() {
+function scoreOf(fixture) {
+  return fixture.score && Number.isFinite(fixture.score.home) && Number.isFinite(fixture.score.away) ? fixture.score : null;
+}
+
+function freezeDate(iso) {
+  const stamp = Date.parse(`${iso}T12:00:00+02:00`);
+  return class extends Date {
+    constructor(...args) {
+      if (args.length === 0) super(stamp);
+      else super(...args);
+    }
+    static now() {
+      return stamp;
+    }
+  };
+}
+
+function setup({ today = data.checked } = {}) {
   const fixtures = { innerHTML: '', querySelector() { return null; }, querySelectorAll() { return []; } };
   const resultCount = { textContent: '' };
   const nextLink = { href: '', classList: { add() {}, remove() {} }, setAttribute() {}, textContent: '', innerHTML: '' };
@@ -52,14 +70,23 @@ function setup() {
     window: { addEventListener() {}, scrollTo() {} },
     history: { scrollRestoration: 'auto' },
     Intl,
-    Date,
+    Date: freezeDate(today),
     Number,
     String,
     encodeURIComponent,
     Boolean
   };
   vm.runInNewContext(source.replace(/if\('serviceWorker'[\s\S]*$/, ''), context);
-  return { fixtures, resultCount, nextLink, nextPrev, context };
+  return { fixtures, resultCount, nextLink, nextPrev, context, today };
+}
+
+function nextFixture(today = data.checked) {
+  return data.fixtures.find((fixture) => !scoreOf(fixture) && fixture.date >= today)
+    || data.fixtures.find((fixture) => fixture.date >= today);
+}
+
+function opponentOf(fixture) {
+  return fixture.home === 'De Zwaluw' ? fixture.away : fixture.home;
 }
 
 test('the calendar lists every cup and league match without a show-more control', () => {
@@ -82,7 +109,7 @@ test('the calendar lists every cup and league match without a show-more control'
   const css = fs.readFileSync(path.join(root, 'style.css'), 'utf8');
   assert.match(css, /\.calendar-tabs\{[^}]*flex-wrap:nowrap/);
   assert.match(css, /\.calendar-tabs\{[^}]*overflow-x:auto/);
-  assert.equal((fixtures.innerHTML.match(/<details class="fixture/g) || []).length, 20);
+  assert.equal((fixtures.innerHTML.match(/<details class="fixture/g) || []).length, data.fixtures.length);
   assert.doesNotMatch(fixtures.innerHTML, /is-placeholder/);
   assert.equal((fixtures.innerHTML.match(/calendar-note is-beker/g) || []).length, 12);
   assert.equal((fixtures.innerHTML.match(/calendar-note is-inhaaldag/g) || []).length, 7);
@@ -93,20 +120,27 @@ test('the calendar lists every cup and league match without a show-more control'
   assert.match(fixtures.innerHTML, /class="note-title">[\s\S]*?Beker<\/p>/);
   assert.match(fixtures.innerHTML, /Tegenstander volgt\. ATC heeft deze bekerdag nog niet ingevuld/);
   assert.match(fixtures.innerHTML, /Geen wedstrijd\. ATC houdt deze dag vrij voor inhaalwedstrijden/);
-  assert.equal((fixtures.innerHTML.match(/class="cup-tag"/g) || []).length, 2);
+  assert.equal((fixtures.innerHTML.match(/class="cup-tag"/g) || []).length, data.fixtures.filter((fixture) => fixture.type === 'beker').length);
   assert.match(resultCount.textContent, /nog te spelen/);
 });
 
 test('upcoming matches are the default tab and played matches sit on the second tab', () => {
-  const { fixtures, resultCount } = setup();
+  const { fixtures, resultCount, today } = setup();
   const upcoming = fixtures.innerHTML.indexOf('id="panel-upcoming"');
   const played = fixtures.innerHTML.indexOf('id="panel-played"');
-  const nxt = fixtures.innerHTML.indexOf('NXT');
-  const zenakalmScore = fixtures.innerHTML.indexOf('11 – 7');
   assert.ok(upcoming < played);
-  assert.ok(nxt > upcoming && nxt < played);
-  assert.ok(zenakalmScore > played);
-  assert.match(resultCount.textContent, /31 wedstrijden nog te spelen/);
+  const scored = data.fixtures.filter((fixture) => scoreOf(fixture));
+  assert.ok(scored.length >= 1);
+  for (const fixture of scored) {
+    const marker = `${fixture.score.home} – ${fixture.score.away}`;
+    const at = fixtures.innerHTML.indexOf(marker);
+    assert.ok(at > played, `${fixture.home}–${fixture.away} hoort bij gespeeld`);
+  }
+  const next = nextFixture(today);
+  assert.ok(next);
+  const nextAt = fixtures.innerHTML.indexOf(next.url);
+  assert.ok(nextAt > upcoming && nextAt < played);
+  assert.match(resultCount.textContent, /\d+ wedstrijden nog te spelen/);
   const oct23 = fixtures.innerHTML.indexOf('2026-10-23');
   const oct30 = fixtures.innerHTML.indexOf('2026-10-30');
   const nov6 = fixtures.innerHTML.indexOf('2026-11-06');
@@ -114,33 +148,42 @@ test('upcoming matches are the default tab and played matches sit on the second 
 });
 
 test('away matches open Google Maps from the overview; past matches are marked', () => {
-  const { fixtures, nextLink } = setup();
+  const { fixtures, nextLink, today } = setup();
   assert.match(fixtures.innerHTML, /class="fixture past"/);
   assert.match(fixtures.innerHTML, /Gespeeld/);
   assert.match(fixtures.innerHTML, /maps\/dir\/\?api=1&destination=/);
   assert.match(fixtures.innerHTML, /Route naar Hanenberg/);
   assert.doesNotMatch(fixtures.innerHTML, /Route openen/);
-  assert.match(nextLink.href, /maps\/dir/);
-  assert.match(nextLink.innerHTML, /class="pin-icon"/);
-  assert.match(nextLink.innerHTML, /Route/);
-  assert.match(nextLink.innerHTML, /class="route-drive"/);
-  assert.match(nextLink.innerHTML, /Retie · ±60 min vanuit Mechelen/);
+  const next = nextFixture(today);
+  assert.ok(next);
+  if (next.home === 'De Zwaluw') {
+    assert.equal(nextLink.href, next.url);
+  } else {
+    assert.match(nextLink.href, /maps\/dir/);
+    assert.match(nextLink.innerHTML, /class="pin-icon"/);
+    assert.match(nextLink.innerHTML, /Route/);
+    assert.match(nextLink.innerHTML, /class="route-drive"/);
+    assert.match(nextLink.innerHTML, /vanuit Mechelen/);
+  }
   assert.match(fixtures.innerHTML, /class="drive-note"/);
   assert.match(fixtures.innerHTML, /±60 min vanuit Mechelen/);
   assert.match(fixtures.innerHTML, /±15 min vanuit Mechelen/);
   assert.doesNotMatch(fixtures.innerHTML, /Retie · ±60 min vanuit Mechelen/);
   assert.doesNotMatch(fixtures.innerHTML, /Sint-Katelijne-Waver · ±15/);
-  assert.equal((fixtures.innerHTML.match(/class="drive-note"/g) || []).length, 10);
+  assert.equal((fixtures.innerHTML.match(/class="drive-note"/g) || []).length, data.fixtures.filter((fixture) => fixture.home !== 'De Zwaluw').length);
   assert.doesNotMatch(fixtures.innerHTML, /<dt>Aanvang<\/dt>/);
   assert.match(fixtures.innerHTML, /class="pin-icon"/);
   assert.doesNotMatch(fixtures.innerHTML, /Uur niet vermeld/);
 });
 
 test('toont vorig seizoen van de tegenstander bij matches', () => {
-  const { fixtures, nextPrev } = setup();
+  const { fixtures, nextPrev, today } = setup();
   assert.match(fixtures.innerHTML, /class="fixture-prev"[^>]*>VJ Nieuw</);
   assert.match(fixtures.innerHTML, /class="fixture-prev"[^>]*>VJ 1A · 4e</);
   assert.match(fixtures.innerHTML, /<dt>Vorig seizoen<\/dt><dd[^>]*>1A · 4e · als BP Stars<\/dd>/);
   assert.match(fixtures.innerHTML, /<dt>Vorig seizoen<\/dt><dd[^>]*>2A · 1e<\/dd>/);
-  assert.match(nextPrev.innerHTML, /Vorig seizoen: <strong>Nieuw<\/strong>/);
+  const next = nextFixture(today);
+  const info = data.previousSeason.teams[opponentOf(next)];
+  const expected = info.formerName ? `${info.label} · als ${info.formerName}` : info.label;
+  assert.match(nextPrev.innerHTML, new RegExp(`Vorig seizoen: <strong>${expected.replace(/[.*+?^${}()|[\]\\]/g, '\\$&')}<\\/strong>`));
 });
