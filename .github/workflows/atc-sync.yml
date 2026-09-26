@@ -2,9 +2,9 @@ name: ATC-sync
 
 on:
   schedule:
-    # Elke ochtend 07:00 UTC — vrijdaguitslagen staan zo zaterdag klaar;
-    # dagelijks vangt gemiste GitHub-cronruns ook sneller op.
-    - cron: '0 7 * * *'
+    # Elke ochtend ~07:17 Europe/Brussels (05:17 UTC winter / 06:17 UTC zomer).
+    # Niet op :00 — GitHub dropt cronjobs vaak bij piekbelasting aan het uur.
+    - cron: '17 6 * * *'
   workflow_dispatch:
 
 permissions:
