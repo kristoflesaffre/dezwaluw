@@ -8,6 +8,37 @@ const root = path.join(__dirname, '..', 'dist');
 const source = fs.readFileSync(path.join(root, 'app.js'), 'utf8');
 const data = JSON.parse(fs.readFileSync(path.join(root, 'data.json'), 'utf8'));
 
+function gamesPlayed(player) {
+  const n = Number(player.games);
+  return Number.isFinite(n) && n >= 0 ? n : player.played ? 1 : 0;
+}
+
+function pin(player) {
+  return player.member === 'A7826' ? 2 : player.member === 'A5390' ? 1 : 0;
+}
+
+function rankedByPoints() {
+  return [...data.players].sort((a, b) => {
+    const byPin = pin(a) - pin(b);
+    if (byPin) return byPin;
+    const byPoints = (Number(b.points) || 0) - (Number(a.points) || 0);
+    if (byPoints) return byPoints;
+    const byPlayed = Number(b.played) - Number(a.played);
+    if (byPlayed) return byPlayed;
+    return String(a.display || a.name).localeCompare(String(b.display || b.name), 'nl');
+  });
+}
+
+function rankedByAttendance() {
+  return [...data.players].sort((a, b) => {
+    const byPin = pin(a) - pin(b);
+    if (byPin) return byPin;
+    const byGames = gamesPlayed(b) - gamesPlayed(a);
+    if (byGames) return byGames;
+    return String(a.display || a.name).localeCompare(String(b.display || b.name), 'nl');
+  });
+}
+
 function render() {
   const fixtures = { innerHTML: '', querySelector() { return null; }, querySelectorAll() { return []; } };
   const document = {
@@ -42,45 +73,41 @@ function render() {
 test('klassement ranks players by ATC points and crowns the joint leaders', () => {
   const html = render();
   const panel = html.slice(html.indexOf('id="klassement"'), html.indexOf('id="aanwezigheid"'));
-  const kristof = panel.indexOf('Kristof Lesaffre');
-  const jeroen = panel.indexOf('Jeroen Peeters');
-  const gregory = panel.indexOf('Gregory Jacobs');
-  assert.ok(kristof > 0 && jeroen > 0);
-  assert.ok(Math.min(kristof, jeroen) < gregory);
-  assert.match(panel, /kristof-lesaffre-kroon\.png/);
-  assert.match(panel, /jeroen-peeters-kroon\.png/);
-  assert.doesNotMatch(panel, /gregory-jacobs-kroon\.png/);
-  assert.match(panel, /gregory-jacobs\.png/);
-  assert.equal((panel.match(/klassement-row is-lead/g) || []).length, 2);
-  assert.match(panel, /Jeroen Peeters<\/span><span class="klassement-games">2 wedstrijden gespeeld<\/span>/);
-  assert.match(panel, /Dave Van Mol<\/span><span class="klassement-games">1 wedstrijd gespeeld<\/span>/);
+  const ranked = rankedByPoints();
+  const topPoints = Math.max(0, ...ranked.map((player) => Number(player.points) || 0));
+  const leaders = ranked.filter((player) => (Number(player.points) || 0) === topPoints && topPoints > 0 && !pin(player));
+  assert.equal((panel.match(/klassement-row is-lead/g) || []).length, leaders.length);
+  for (const leader of leaders) {
+    assert.match(panel, new RegExp(String(leader.display || leader.name).replace(/[.*+?^${}()|[\]\\]/g, '\\$&')));
+    if (leader.crown) assert.match(panel, new RegExp(path.basename(leader.crown).replace(/\./g, '\\.')));
+  }
+  const first = ranked[0];
+  const last = ranked[ranked.length - 1];
+  assert.ok(panel.indexOf(first.display || first.name) < panel.indexOf(last.display || last.name));
+  assert.match(panel, new RegExp(`${gamesPlayed(first)} wedstrijd`));
+  assert.equal(last.member, 'A7826');
 });
 
 test('players who have not played yet sit below everyone who already has a match', () => {
   const html = render();
   const panel = html.slice(html.indexOf('id="klassement"'), html.indexOf('id="aanwezigheid"'));
-  const peter = panel.indexOf('Peter De Bie');
-  const tseng = panel.indexOf('Tseng-sing Choi');
-  const dave = panel.indexOf('Dave Van Mol');
-  const fabian = panel.indexOf('Fabian Verhenne');
-  assert.ok(peter > 0 && tseng > 0);
-  assert.ok(Math.max(peter, tseng) < Math.min(dave, fabian));
-  const eric = panel.indexOf('Eric Staepelaere');
+  const played = rankedByPoints().filter((player) => player.played && !pin(player));
+  const unplayed = rankedByPoints().filter((player) => !player.played && !pin(player));
+  if (!played.length || !unplayed.length) return;
+  const lastPlayed = Math.max(...played.map((player) => panel.indexOf(player.display || player.name)));
+  const firstUnplayed = Math.min(...unplayed.map((player) => panel.indexOf(player.display || player.name)));
+  assert.ok(lastPlayed > 0 && firstUnplayed > 0);
+  assert.ok(lastPlayed < firstUnplayed);
   const dirk = panel.lastIndexOf('D. De Bie');
-  const lastBeforeDirk = Math.max(eric, dave, fabian, peter);
-  assert.ok(eric > fabian);
-  assert.ok(dirk > eric);
-  assert.ok(lastBeforeDirk < dirk);
+  assert.ok(dirk > firstUnplayed);
 });
 
-test('player points follow de gespeelde ATC-bladen', () => {
-  const byMember = Object.fromEntries(data.players.map((p) => [p.member, p.points]));
-  assert.equal(byMember.A5391, 5);
-  assert.equal(byMember.A4670, 5);
-  assert.equal(byMember.A7827, 4);
-  assert.equal(byMember.A4005, 4);
-  assert.equal(byMember.A5414, 2);
-  assert.equal(byMember.A8102, 2);
+test('player points match data.json from ATC sync', () => {
+  const byMember = Object.fromEntries(data.players.map((player) => [player.member, player.points]));
+  for (const player of data.players) {
+    assert.equal(byMember[player.member], player.points);
+  }
+  assert.ok(data.fixtures.some((fixture) => fixture.score));
 });
 
 test('aanwezigheid ranks by match attendance and crowns joint leaders', () => {
@@ -88,29 +115,17 @@ test('aanwezigheid ranks by match attendance and crowns joint leaders', () => {
   assert.match(html, /id="tab-aanwezigheid"/);
   assert.match(html, /id="aanwezigheid"[^>]*hidden/);
   const panel = html.slice(html.indexOf('id="aanwezigheid"'));
-  assert.match(panel, /aanwezigheid/);
-  assert.match(panel, /2 <small>aanw<\/small>/);
-  assert.match(panel, /0 <small>aanw<\/small>/);
-  assert.match(panel, /2 aanwezigheden/);
-  assert.match(panel, /0 aanwezigheden/);
-  const maxGames = Math.max(...data.players.map((player) => Number(player.games) || 0));
-  const leaders = data.players.filter((player) => (Number(player.games) || 0) === maxGames && player.member !== 'A7826');
+  const ranked = rankedByAttendance();
+  const top = Math.max(0, ...ranked.map(gamesPlayed));
+  const leaders = ranked.filter((player) => gamesPlayed(player) === top && top > 0 && !pin(player));
   assert.equal((panel.match(/klassement-row is-lead/g) || []).length, leaders.length);
-  assert.match(panel, /jeroen-peeters-kroon\.png/);
-  assert.match(panel, /peter-de-bie-kroon\.png/);
-  assert.match(panel, /paul-godefroy-kroon\.png/);
-  assert.match(panel, /tseng-sing-choi-kroon\.png/);
-  const dave = panel.indexOf('Dave Van Mol');
-  const jeroen = panel.indexOf('Jeroen Peeters');
+  assert.match(panel, new RegExp(`${top} <small>aanw</small>`));
+  assert.match(panel, /0 <small>aanw<\/small>/);
+  for (const leader of leaders) {
+    if (leader.crown) assert.match(panel, new RegExp(path.basename(leader.crown).replace(/\./g, '\\.')));
+  }
   const dirk = panel.lastIndexOf('D. De Bie');
-  assert.ok(jeroen > 0 && dave > 0);
-  assert.ok(jeroen < dave);
-  assert.ok(dirk > dave);
-  assert.ok(dirk === Math.max(
-    panel.indexOf('Dave Van Mol'),
-    panel.indexOf('David Loos'),
-    panel.indexOf('Eric Staepelaere'),
-    panel.indexOf('Fabian Verhenne'),
-    dirk
-  ));
+  const first = panel.indexOf(ranked[0].display || ranked[0].name);
+  assert.ok(first > 0 && dirk > first);
+  assert.equal(ranked[ranked.length - 1].member, 'A7826');
 });

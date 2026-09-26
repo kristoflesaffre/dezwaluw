@@ -1,5 +1,5 @@
 {
-  "checked": "2026-09-21",
+  "checked": "2026-09-26",
   "fixtures": [
     {
       "date": "2026-09-11",
@@ -32,7 +32,10 @@
       "type": "competitie",
       "home": "De Zwaluw",
       "away": "BP Ratten",
-      "score": null,
+      "score": {
+        "home": 5,
+        "away": 13
+      },
       "url": "https://www.atc-tafelvoetbal.be/wedstrijden/3009",
       "venue": "Café De Zwaluw",
       "address": "Molenstraat 47, 2550 Kontich"
@@ -219,7 +222,7 @@
       "photo": "assets/players/peter-de-bie.png",
       "crown": "assets/players/peter-de-bie-kroon.png",
       "played": true,
-      "games": 2
+      "games": 3
     },
     {
       "name": "T. Choi",
@@ -227,11 +230,11 @@
       "ranking": "2P",
       "url": "https://www.atc-tafelvoetbal.be/players/139",
       "display": "Tseng-sing Choi",
-      "points": 4,
+      "points": 6,
       "photo": "assets/players/tseng-sing-choi.png",
       "crown": "assets/players/tseng-sing-choi-kroon.png",
       "played": true,
-      "games": 2
+      "games": 3
     },
     {
       "name": "K. Lesaffre",
@@ -239,11 +242,11 @@
       "ranking": "2P",
       "url": "https://www.atc-tafelvoetbal.be/players/554",
       "display": "Kristof Lesaffre",
-      "points": 5,
+      "points": 7,
       "photo": "assets/players/kristof-lesaffre.png",
       "crown": "assets/players/kristof-lesaffre-kroon.png",
       "played": true,
-      "games": 1
+      "games": 2
     },
     {
       "name": "J. Peeters",
@@ -251,11 +254,11 @@
       "ranking": "2P",
       "url": "https://www.atc-tafelvoetbal.be/players/759",
       "display": "Jeroen Peeters",
-      "points": 5,
+      "points": 6,
       "photo": "assets/players/jeroen-peeters.png",
       "crown": "assets/players/jeroen-peeters-kroon.png",
       "played": true,
-      "games": 2
+      "games": 3
     },
     {
       "name": "G. Jacobs",
@@ -263,11 +266,11 @@
       "ranking": "1P",
       "url": "https://www.atc-tafelvoetbal.be/players/483",
       "display": "Gregory Jacobs",
-      "points": 2,
+      "points": 3,
       "photo": "assets/players/gregory-jacobs.png",
       "crown": "assets/players/gregory-jacobs-kroon.png",
       "played": true,
-      "games": 1
+      "games": 2
     },
     {
       "name": "P. Godefroy",
@@ -287,11 +290,11 @@
       "ranking": "1P",
       "url": "https://www.atc-tafelvoetbal.be/players/569",
       "display": "David Loos",
-      "points": 0,
+      "points": 2,
       "photo": "assets/players/david-loos.png",
       "crown": "assets/players/david-loos-kroon.png",
-      "played": false,
-      "games": 0
+      "played": true,
+      "games": 1
     },
     {
       "name": "D. De Bie",
@@ -335,124 +338,124 @@
       "ranking": "3P",
       "url": "https://www.atc-tafelvoetbal.be/players/1352",
       "display": "Dave Van Mol",
-      "points": 0,
+      "points": 2,
       "photo": "assets/players/dave-van-mol.png",
       "crown": "assets/players/dave-van-mol-kroon.png",
       "played": true,
-      "games": 1
+      "games": 2
     }
   ],
   "standings": {
     "rows": [
       {
         "rank": 1,
-        "team": "BP Ratten",
-        "points": 2,
-        "played": 1,
-        "won": 1,
-        "drawn": 0,
-        "lost": 0,
-        "sets": 12,
-        "previous": "1A · 4e"
-      },
-      {
-        "rank": 2,
         "team": "Foosforce",
-        "points": 2,
-        "played": 1,
-        "won": 1,
+        "points": 4,
+        "played": 2,
+        "won": 2,
         "drawn": 0,
         "lost": 0,
-        "sets": 10,
+        "sets": 28,
         "previous": "1A · 1e"
       },
       {
-        "rank": 3,
-        "team": "NXT",
-        "points": 2,
-        "played": 1,
-        "won": 1,
+        "rank": 2,
+        "team": "BP Ratten",
+        "points": 4,
+        "played": 2,
+        "won": 2,
         "drawn": 0,
         "lost": 0,
-        "sets": 10,
-        "previous": "Nieuw"
+        "sets": 20,
+        "previous": "1A · 4e"
+      },
+      {
+        "rank": 3,
+        "team": "Zenakalm",
+        "points": 4,
+        "played": 2,
+        "won": 2,
+        "drawn": 0,
+        "lost": 0,
+        "sets": 16,
+        "previous": "2A · 1e"
       },
       {
         "rank": 4,
-        "team": "Roadhouse",
-        "points": 2,
-        "played": 1,
-        "won": 1,
+        "team": "NXT",
+        "points": 4,
+        "played": 2,
+        "won": 2,
         "drawn": 0,
         "lost": 0,
-        "sets": 4,
-        "previous": "1A · 5e"
+        "sets": 12,
+        "previous": "Nieuw"
       },
       {
         "rank": 5,
-        "team": "Zenakalm",
-        "points": 2,
-        "played": 1,
-        "won": 1,
+        "team": "Roadhouse",
+        "points": 4,
+        "played": 2,
+        "won": 2,
         "drawn": 0,
         "lost": 0,
-        "sets": 4,
-        "previous": "2A · 1e"
+        "sets": 6,
+        "previous": "1A · 5e"
       },
       {
         "rank": 6,
         "team": "Halverwegen",
         "points": 0,
-        "played": 1,
+        "played": 2,
         "won": 0,
         "drawn": 0,
-        "lost": 1,
-        "sets": -4,
+        "lost": 2,
+        "sets": -6,
         "previous": "1A · 6e"
       },
       {
         "rank": 7,
-        "team": "Peeke Binne",
+        "team": "Paradijske ('t)",
         "points": 0,
-        "played": 1,
+        "played": 2,
         "won": 0,
         "drawn": 0,
-        "lost": 1,
-        "sets": -4,
-        "previous": "2A · 4e"
+        "lost": 2,
+        "sets": -14,
+        "previous": "2A · 2e"
       },
       {
         "rank": 8,
         "team": "De Zwaluw",
         "points": 0,
-        "played": 1,
+        "played": 2,
         "won": 0,
         "drawn": 0,
-        "lost": 1,
-        "sets": -10,
+        "lost": 2,
+        "sets": -18,
         "previous": "1A · 8e"
       },
       {
         "rank": 9,
         "team": "Y&O",
         "points": 0,
-        "played": 1,
+        "played": 2,
         "won": 0,
         "drawn": 0,
-        "lost": 1,
-        "sets": -10,
+        "lost": 2,
+        "sets": -22,
         "previous": "1A · 7e"
       },
       {
         "rank": 10,
-        "team": "Paradijske ('t)",
+        "team": "Peeke Binne",
         "points": 0,
-        "played": 1,
+        "played": 2,
         "won": 0,
         "drawn": 0,
-        "lost": 1,
-        "sets": -12,
-        "previous": "2A · 2e"
+        "lost": 2,
+        "sets": -22,
+        "previous": "2A · 4e"
       }
     ]
   },
