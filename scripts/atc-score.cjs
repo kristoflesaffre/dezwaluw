@@ -383,7 +383,7 @@ function syncStandingsPage(html, rows, checked) {
   );
   next = next.replace(
     /Gegevens overgenomen op [^.;]+; deze site wordt niet automatisch gesynchroniseerd\./,
-    `Laatst automatisch gecontroleerd op ${date}. De site synchroniseert wekelijks met ATC.`
+    `Laatst automatisch gecontroleerd op ${date}. De site synchroniseert dagelijks met ATC.`
   );
   next = next.replace(
     /Laatst automatisch gecontroleerd op [^.<]+/,

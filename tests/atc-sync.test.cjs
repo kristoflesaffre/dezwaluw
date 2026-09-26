@@ -201,5 +201,5 @@ test('schrijft de stand en de sync-zin in de HTML', () => {
   assert.match(next, /Stand op 13 september 2026/);
   assert.doesNotMatch(next, /Nog geen competitiewedstrijden gespeeld/);
   assert.match(next, /De Zwaluw <span>WIJ<\/span>/);
-  assert.match(next, /synchroniseert wekelijks met ATC/);
+  assert.match(next, /synchroniseert dagelijks met ATC/);
 });
