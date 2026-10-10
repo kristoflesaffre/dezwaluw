@@ -1,5 +1,5 @@
 {
-  "checked": "2026-10-09",
+  "checked": "2026-10-10",
   "fixtures": [
     {
       "date": "2026-09-11",
@@ -58,7 +58,10 @@
       "type": "beker",
       "home": "De Zwaluw",
       "away": "Zenakalm",
-      "score": null,
+      "score": {
+        "home": 5,
+        "away": 13
+      },
       "url": "https://www.atc-tafelvoetbal.be/wedstrijden/3557",
       "venue": "Café De Zwaluw",
       "address": "Molenstraat 47, 2550 Kontich"
@@ -221,11 +224,11 @@
       "ranking": "2P",
       "url": "https://www.atc-tafelvoetbal.be/players/201",
       "display": "Peter De Bie",
-      "points": 6,
+      "points": 7,
       "photo": "assets/players/peter-de-bie.png",
       "crown": "assets/players/peter-de-bie-kroon.png",
       "played": true,
-      "games": 4
+      "games": 5
     },
     {
       "name": "T. Choi",
@@ -233,11 +236,11 @@
       "ranking": "2P",
       "url": "https://www.atc-tafelvoetbal.be/players/139",
       "display": "Tseng-sing Choi",
-      "points": 8,
+      "points": 9,
       "photo": "assets/players/tseng-sing-choi.png",
       "crown": "assets/players/tseng-sing-choi-kroon.png",
       "played": true,
-      "games": 4
+      "games": 5
     },
     {
       "name": "K. Lesaffre",
@@ -245,11 +248,11 @@
       "ranking": "2P",
       "url": "https://www.atc-tafelvoetbal.be/players/554",
       "display": "Kristof Lesaffre",
-      "points": 12,
+      "points": 16,
       "photo": "assets/players/kristof-lesaffre.png",
       "crown": "assets/players/kristof-lesaffre-kroon.png",
       "played": true,
-      "games": 3
+      "games": 4
     },
     {
       "name": "J. Peeters",
@@ -257,11 +260,11 @@
       "ranking": "2P",
       "url": "https://www.atc-tafelvoetbal.be/players/759",
       "display": "Jeroen Peeters",
-      "points": 11,
+      "points": 15,
       "photo": "assets/players/jeroen-peeters.png",
       "crown": "assets/players/jeroen-peeters-kroon.png",
       "played": true,
-      "games": 4
+      "games": 5
     },
     {
       "name": "G. Jacobs",
