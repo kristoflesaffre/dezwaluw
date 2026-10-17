@@ -1,5 +1,5 @@
 {
-  "checked": "2026-10-14",
+  "checked": "2026-10-17",
   "fixtures": [
     {
       "date": "2026-09-11",
@@ -71,7 +71,10 @@
       "type": "competitie",
       "home": "Y&O",
       "away": "De Zwaluw",
-      "score": null,
+      "score": {
+        "home": 12,
+        "away": 6
+      },
       "url": "https://www.atc-tafelvoetbal.be/wedstrijden/3020",
       "venue": "'t Klaverke",
       "address": "Dorp 2, 2861 Sint-Katelijne-Waver"
@@ -224,11 +227,11 @@
       "ranking": "2P",
       "url": "https://www.atc-tafelvoetbal.be/players/201",
       "display": "Peter De Bie",
-      "points": 7,
+      "points": 9,
       "photo": "assets/players/peter-de-bie.png",
       "crown": "assets/players/peter-de-bie-kroon.png",
       "played": true,
-      "games": 5
+      "games": 6
     },
     {
       "name": "T. Choi",
@@ -236,11 +239,11 @@
       "ranking": "2P",
       "url": "https://www.atc-tafelvoetbal.be/players/139",
       "display": "Tseng-sing Choi",
-      "points": 9,
+      "points": 11,
       "photo": "assets/players/tseng-sing-choi.png",
       "crown": "assets/players/tseng-sing-choi-kroon.png",
       "played": true,
-      "games": 5
+      "games": 6
     },
     {
       "name": "K. Lesaffre",
@@ -248,11 +251,11 @@
       "ranking": "2P",
       "url": "https://www.atc-tafelvoetbal.be/players/554",
       "display": "Kristof Lesaffre",
-      "points": 16,
+      "points": 18,
       "photo": "assets/players/kristof-lesaffre.png",
       "crown": "assets/players/kristof-lesaffre-kroon.png",
       "played": true,
-      "games": 4
+      "games": 5
     },
     {
       "name": "J. Peeters",
@@ -260,11 +263,11 @@
       "ranking": "2P",
       "url": "https://www.atc-tafelvoetbal.be/players/759",
       "display": "Jeroen Peeters",
-      "points": 15,
+      "points": 17,
       "photo": "assets/players/jeroen-peeters.png",
       "crown": "assets/players/jeroen-peeters-kroon.png",
       "played": true,
-      "games": 5
+      "games": 6
     },
     {
       "name": "G. Jacobs",
@@ -272,11 +275,11 @@
       "ranking": "1P",
       "url": "https://www.atc-tafelvoetbal.be/players/483",
       "display": "Gregory Jacobs",
-      "points": 3,
+      "points": 5,
       "photo": "assets/players/gregory-jacobs.png",
       "crown": "assets/players/gregory-jacobs-kroon.png",
       "played": true,
-      "games": 3
+      "games": 4
     },
     {
       "name": "P. Godefroy",
@@ -344,124 +347,124 @@
       "ranking": "3P",
       "url": "https://www.atc-tafelvoetbal.be/players/1352",
       "display": "Dave Van Mol",
-      "points": 2,
+      "points": 4,
       "photo": "assets/players/dave-van-mol.png",
       "crown": "assets/players/dave-van-mol-kroon.png",
       "played": true,
-      "games": 3
+      "games": 4
     }
   ],
   "standings": {
     "rows": [
       {
         "rank": 1,
-        "team": "NXT",
-        "points": 6,
-        "played": 3,
-        "won": 3,
+        "team": "Zenakalm",
+        "points": 8,
+        "played": 4,
+        "won": 4,
         "drawn": 0,
         "lost": 0,
-        "sets": 28,
-        "previous": "Nieuw"
+        "sets": 38,
+        "previous": "2A · 1e"
       },
       {
         "rank": 2,
-        "team": "Zenakalm",
-        "points": 6,
-        "played": 3,
-        "won": 3,
+        "team": "NXT",
+        "points": 8,
+        "played": 4,
+        "won": 4,
         "drawn": 0,
         "lost": 0,
-        "sets": 22,
-        "previous": "2A · 1e"
+        "sets": 36,
+        "previous": "Nieuw"
       },
       {
         "rank": 3,
         "team": "Roadhouse",
-        "points": 6,
-        "played": 3,
-        "won": 3,
+        "points": 8,
+        "played": 4,
+        "won": 4,
         "drawn": 0,
         "lost": 0,
-        "sets": 12,
+        "sets": 30,
         "previous": "1A · 5e"
       },
       {
         "rank": 4,
-        "team": "Foosforce",
+        "team": "BP Ratten",
         "points": 4,
-        "played": 2,
+        "played": 4,
         "won": 2,
         "drawn": 0,
-        "lost": 0,
-        "sets": 28,
-        "previous": "1A · 1e"
+        "lost": 2,
+        "sets": 12,
+        "previous": "1A · 4e"
       },
       {
         "rank": 5,
-        "team": "BP Ratten",
+        "team": "Foosforce",
         "points": 4,
         "played": 3,
         "won": 2,
         "drawn": 0,
         "lost": 1,
-        "sets": 14,
-        "previous": "1A · 4e"
+        "sets": 10,
+        "previous": "1A · 1e"
       },
       {
         "rank": 6,
         "team": "Halverwegen",
-        "points": 2,
-        "played": 3,
-        "won": 1,
+        "points": 4,
+        "played": 4,
+        "won": 2,
         "drawn": 0,
         "lost": 2,
-        "sets": -2,
+        "sets": 0,
         "previous": "1A · 6e"
       },
       {
         "rank": 7,
-        "team": "Paradijske ('t)",
-        "points": 0,
-        "played": 2,
-        "won": 0,
+        "team": "Y&O",
+        "points": 2,
+        "played": 4,
+        "won": 1,
         "drawn": 0,
-        "lost": 2,
-        "sets": -14,
-        "previous": "2A · 2e"
+        "lost": 3,
+        "sets": -32,
+        "previous": "1A · 7e"
       },
       {
         "rank": 8,
         "team": "De Zwaluw",
         "points": 0,
-        "played": 3,
+        "played": 4,
         "won": 0,
         "drawn": 0,
-        "lost": 3,
-        "sets": -22,
+        "lost": 4,
+        "sets": -28,
         "previous": "1A · 8e"
       },
       {
         "rank": 9,
-        "team": "Peeke Binne",
+        "team": "Paradijske ('t)",
         "points": 0,
         "played": 3,
         "won": 0,
         "drawn": 0,
         "lost": 3,
-        "sets": -28,
-        "previous": "2A · 4e"
+        "sets": -30,
+        "previous": "2A · 2e"
       },
       {
         "rank": 10,
-        "team": "Y&O",
+        "team": "Peeke Binne",
         "points": 0,
-        "played": 3,
+        "played": 4,
         "won": 0,
         "drawn": 0,
-        "lost": 3,
-        "sets": -38,
-        "previous": "1A · 7e"
+        "lost": 4,
+        "sets": -36,
+        "previous": "2A · 4e"
       }
     ]
   },
