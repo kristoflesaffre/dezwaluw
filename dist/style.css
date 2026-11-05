@@ -139,7 +139,8 @@ h1,h2,h3,p{margin:0}
 .standings-card thead th{height:30px;font-size:12px;color:var(--cream-muted);border-bottom:0}
 .standings-card th[scope=row],.standings-card thead th:nth-child(2){text-align:left;font-size:15px}
 .standings-card thead th:nth-child(2){font-size:12px}
-.standings-card td:first-child,.standings-card thead th:first-child{text-align:left;width:26px}
+.standings-card td:first-child,.standings-card thead th:first-child{text-align:left;width:38px;padding-left:10px}
+.standings-card td:last-child,.standings-card thead th:last-child{padding-right:10px}
 .standings-card td:first-child{font-family:var(--display);font-size:19px}
 .standings-card td.pts{font-family:var(--display);font-size:23px}
 .standings-card abbr{text-decoration:none}
