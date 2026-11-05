@@ -42,10 +42,12 @@ function setup({ today = defaultToday() } = {}) {
   const nextTeams = { innerHTML: '' };
   const nextPrev = { hidden: false, innerHTML: '', textContent: '', title: '', removeAttribute() { this.title = ''; } };
   const nextDate = { innerHTML: '' };
+  const standingsCard = { id: 'standings-card', innerHTML: '', querySelector() { return null; }, querySelectorAll() { return []; } };
   const matchLabel = { innerHTML: '' };
   const document = {
     querySelector(sel) {
       if (sel === '#fixtures') return fixtures;
+      if (sel === '#standings-card') return standingsCard;
       if (sel === '#result-count') return resultCount;
       if (sel === '.next-match .round-link') return nextLink;
       if (sel === '.next-teams') return nextTeams;
@@ -86,7 +88,7 @@ function setup({ today = defaultToday() } = {}) {
     Boolean
   };
   vm.runInNewContext(source.replace(/if\('serviceWorker'[\s\S]*$/, ''), context);
-  return { fixtures, resultCount, nextLink, nextPrev, context, today };
+  return { fixtures, standingsCard, resultCount, nextLink, nextPrev, context, today };
 }
 
 function nextFixture(today = data.checked) {
@@ -106,15 +108,20 @@ test('the calendar lists every cup and league match without a show-more control'
   assert.match(fixtures.innerHTML, /role="tablist"/);
   assert.match(fixtures.innerHTML, /id="tab-upcoming"[^>]*aria-selected="true"/);
   assert.match(fixtures.innerHTML, /id="tab-played"[^>]*aria-selected="false"/);
-  assert.match(fixtures.innerHTML, />LOCATIE</);
   assert.match(fixtures.innerHTML, /id="panel-played"[^>]*hidden/);
   assert.match(fixtures.innerHTML, /Nog te spelen/);
   assert.match(fixtures.innerHTML, /Gespeeld/);
-  assert.match(fixtures.innerHTML, /id="tab-klassement"/);
-  assert.match(fixtures.innerHTML, /id="klassement"[^>]*hidden/);
-  assert.match(fixtures.innerHTML, /id="tab-aanwezigheid"/);
-  assert.match(fixtures.innerHTML, /id="aanwezigheid"[^>]*hidden/);
-  assert.match(fixtures.innerHTML, />Aanwezigheid</);
+  // «Nog te spelen» staat vóór «Gespeeld»; klassement en aanwezigheid zitten in de klassementkaart.
+  assert.ok(fixtures.innerHTML.indexOf('id="tab-upcoming"') < fixtures.innerHTML.indexOf('id="tab-played"'));
+  assert.doesNotMatch(fixtures.innerHTML, /id="tab-klassement"/);
+  const { standingsCard } = setup();
+  assert.match(standingsCard.innerHTML, /id="tab-ploegen"[^>]*aria-selected="true"/);
+  assert.match(standingsCard.innerHTML, /id="tab-klassement"/);
+  assert.match(standingsCard.innerHTML, /id="klassement"[^>]*hidden/);
+  assert.match(standingsCard.innerHTML, /id="tab-aanwezigheid"/);
+  assert.match(standingsCard.innerHTML, /id="aanwezigheid"[^>]*hidden/);
+  assert.match(standingsCard.innerHTML, />Aanwezigheid</);
+  assert.match(standingsCard.innerHTML, />Individueel</);
   const css = fs.readFileSync(path.join(root, 'style.css'), 'utf8');
   assert.match(css, /\.calendar-tabs\{[^}]*flex-wrap:nowrap/);
   assert.match(css, /\.calendar-tabs\{[^}]*overflow-x:auto/);
@@ -152,14 +159,12 @@ test('upcoming matches are the default tab and played matches sit on the second 
   if (!scoreOf(next)) assert.ok(nextAt > upcoming && nextAt < played);
   assert.match(resultCount.textContent, /nog te spelen/);
   // Binnen elk tabblad chronologisch; welke datum in welk tabblad staat, schuift mee met de dag.
-  const klassement = fixtures.innerHTML.indexOf('id="panel-klassement"');
-  const end = klassement > played ? klassement : fixtures.innerHTML.length;
-  for (const panel of [fixtures.innerHTML.slice(upcoming, played), fixtures.innerHTML.slice(played, end)]) {
-    const positions = data.fixtures
-      .map((fixture) => panel.indexOf(fixture.url))
-      .filter((at) => at >= 0);
-    assert.deepEqual(positions, [...positions].sort((a, b) => a - b));
-  }
+  // Nog te spelen chronologisch, gespeeld met de laatste uitslag bovenaan.
+  const order = (panel) => data.fixtures.map((fixture) => panel.indexOf(fixture.url)).filter((at) => at >= 0);
+  const upcomingOrder = order(fixtures.innerHTML.slice(upcoming, played));
+  assert.deepEqual(upcomingOrder, [...upcomingOrder].sort((a, b) => a - b));
+  const playedOrder = order(fixtures.innerHTML.slice(played));
+  assert.deepEqual(playedOrder, [...playedOrder].sort((a, b) => b - a));
 });
 
 test('away matches open Google Maps from the overview; past matches are marked', () => {
@@ -176,7 +181,7 @@ test('away matches open Google Maps from the overview; past matches are marked',
   } else {
     assert.match(nextLink.href, /maps\/dir/);
     assert.match(nextLink.innerHTML, /class="pin-icon"/);
-    assert.match(nextLink.innerHTML, /Route/);
+    assert.match(nextLink.innerHTML, /Toon de route/);
     assert.match(nextLink.innerHTML, /class="route-drive"/);
     assert.match(nextLink.innerHTML, /vanuit Mechelen/);
   }

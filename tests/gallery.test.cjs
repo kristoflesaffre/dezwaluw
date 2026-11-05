@@ -45,7 +45,7 @@ test('ten named portraits exist and each maps to a distinct team member', () => 
 test('opening a portrait names the photo, opens the modal, and locks page scrolling', () => {
   const s = setup(); s.links[2].fire('click');
   assert.equal(s.viewer.open, true);
-  assert.equal(s.nodes['#portrait-title'].textContent, 'Kristof Lesaffre');
+  assert.equal(s.nodes['#portrait-title'].textContent, s.links[2].dataset.name);
   assert.equal(s.nodes['.viewer-image'].src, s.links[2].href);
   assert.equal(s.nodes['.viewer-count'].textContent, '03 / 10');
   assert.ok(s.document.documentElement.classList.values.has('portrait-is-open'));
@@ -54,14 +54,14 @@ test('opening a portrait names the photo, opens the modal, and locks page scroll
 test('next and previous navigation wrap around the complete gallery', () => {
   const s = setup(); s.links[9].fire('click');
   s.nodes['.viewer-next'].fire('click');
-  assert.equal(s.nodes['#portrait-title'].textContent, 'Peter De Bie');
+  assert.equal(s.nodes['#portrait-title'].textContent, s.links[0].dataset.name);
   s.nodes['.viewer-prev'].fire('click');
-  assert.equal(s.nodes['#portrait-title'].textContent, 'Dave Van Mol');
+  assert.equal(s.nodes['#portrait-title'].textContent, s.links[9].dataset.name);
 });
 test('arrow keys, Home and End select the expected portraits', () => {
   const s = setup(); s.links[3].fire('click');
   s.viewer.fire('keydown', { key: 'ArrowRight' });
-  assert.equal(s.nodes['#portrait-title'].textContent, 'Gregory Jacobs');
+  assert.equal(s.nodes['#portrait-title'].textContent, s.links[4].dataset.name);
   s.viewer.fire('keydown', { key: 'Home' });
   assert.equal(s.nodes['.viewer-count'].textContent, '01 / 10');
   s.viewer.fire('keydown', { key: 'End' });

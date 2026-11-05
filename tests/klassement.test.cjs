@@ -40,10 +40,12 @@ function rankedByAttendance() {
 }
 
 function render() {
-  const fixtures = { innerHTML: '', querySelector() { return null; }, querySelectorAll() { return []; } };
+  const fixtures = { id: 'fixtures', innerHTML: '', querySelector() { return null; }, querySelectorAll() { return []; } };
+  const card = { id: 'standings-card', innerHTML: '', querySelector() { return null; }, querySelectorAll() { return []; } };
   const document = {
     querySelector(sel) {
       if (sel === '#fixtures') return fixtures;
+      if (sel === '#standings-card') return card;
       if (sel === '#result-count') return { textContent: '' };
       return { addEventListener() {}, append() {}, innerHTML: '', textContent: '', setAttribute() {}, classList: { toggle() {}, add() {}, remove() {} }, querySelector() { return { innerHTML: '' }; } };
     },
@@ -67,7 +69,7 @@ function render() {
     encodeURIComponent,
     Boolean
   });
-  return fixtures.innerHTML;
+  return card.innerHTML;
 }
 
 test('klassement ranks players by ATC points and crowns the joint leaders', () => {
@@ -79,7 +81,7 @@ test('klassement ranks players by ATC points and crowns the joint leaders', () =
   assert.equal((panel.match(/klassement-row is-lead/g) || []).length, leaders.length);
   for (const leader of leaders) {
     assert.match(panel, new RegExp(String(leader.display || leader.name).replace(/[.*+?^${}()|[\]\\]/g, '\\$&')));
-    if (leader.crown) assert.match(panel, new RegExp(path.basename(leader.crown).replace(/\./g, '\\.')));
+    if (leader.crown) assert.match(panel, new RegExp(path.basename(leader.crown).replace(/\.png$/, '.webp').replace(/\./g, '\\.')));
   }
   const first = ranked[0];
   const last = ranked[ranked.length - 1];
@@ -122,7 +124,7 @@ test('aanwezigheid ranks by match attendance and crowns joint leaders', () => {
   assert.match(panel, new RegExp(`${top} <small>aanw</small>`));
   assert.match(panel, /0 <small>aanw<\/small>/);
   for (const leader of leaders) {
-    if (leader.crown) assert.match(panel, new RegExp(path.basename(leader.crown).replace(/\./g, '\\.')));
+    if (leader.crown) assert.match(panel, new RegExp(path.basename(leader.crown).replace(/\.png$/, '.webp').replace(/\./g, '\\.')));
   }
   const dirk = panel.lastIndexOf('D. De Bie');
   const first = panel.indexOf(ranked[0].display || ranked[0].name);

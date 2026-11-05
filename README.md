@@ -14,6 +14,8 @@ GitHub Action `.github/workflows/atc-sync.yml` runs that script every Saturday m
 
 Generated swallow and Belgian wooden foosball imagery. Local fonts: Barlow Condensed and Manrope.
 
+Design: «Over het veld» (canvas «De Zwaluw: 4 designvoorstellen», ronde 2, voorstel 1): green pitch with centre line and circle, cream cards, the swallow in flight (`assets/swallow-flight.webp`), sets shown as beads (cream = De Zwaluw, red = opponent). Matches have two tabs, «Nog te spelen» first and active, then «Gespeeld» (newest first). The standings card has three tabs: Ploegen, Individueel, Aanwezigheid. The squad stands on foosball rods (3 · 5 · 2 · 1) with small webp portraits in `assets/players/thumbs/`; the rods are static in `index.html` and `app.js` fills in the current points.
+
 Responsive calendar filters, expandable match details, full season, cup reservations, player links, standings, directions. CSS scroll parallax, pointer-responsive hero, entry animation, reduced-motion support and an animation toggle.
 
 Plain static hosting: dist/index.html. No build step.

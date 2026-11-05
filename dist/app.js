@@ -29,7 +29,9 @@ function townOf(f){const code=postalOf(f);if(driveTowns[code])return driveTowns[
 function driveHint(f){if(isHome(f))return '';const town=townOf(f);const mins=driveMinutes[postalOf(f)];return town&&mins?`${town} · ±${mins} min`:''}
 function driveFromMechelen(f){if(isHome(f))return '';const mins=driveMinutes[postalOf(f)];return mins?`±${mins} min vanuit Mechelen`:''}
 function routeLink(f,label){return `<a class="route-link" href="${mapsUrl(f)}" target="_blank" rel="noopener" aria-label="Route naar ${escapeHTML(f.venue)}">${routeLabel(label)}</a>`}
-function dateStamp(f){const [year,month,day]=f.date.split('-');return `<time class="fixture-date" datetime="${f.date}"><strong>${day}</strong><span>${months[Number(month)-1]} ${year}</span></time>`}
+function dateStamp(f){const [year,month,day]=f.date.split('-');return `<time class="fixture-date" datetime="${f.date}">${day}/${month}<span>${year}</span></time>`}
+function ourSets(f){const s=scoreOf(f);if(!s)return null;return isHome(f)?{ours:s.home,theirs:s.away}:{ours:s.away,theirs:s.home}}
+function beadsHTML(f){const sets=ourSets(f);if(!sets)return '';return `<span class="beads" role="img" aria-label="${sets.ours} sets voor De Zwaluw, ${sets.theirs} voor ${escapeHTML(opponentOf(f))}">${'<i></i>'.repeat(sets.ours)}${'<i class="them"></i>'.repeat(sets.theirs)}</span>`}
 function calendarType(value){const type=String(value||'').toLowerCase();if(type==='beker')return 'beker';if(type==='inhaaldag')return 'inhaaldag';if(type==='kampioenschappen')return 'kampioenschappen';if(type==='competitie')return 'competitie';return 'andere'}
 function calendarItems(){
  const matches=clubData.fixtures||[];
@@ -44,13 +46,13 @@ function calendarItems(){
  });
  return [...matches,...extras].sort((a,b)=>a.date.localeCompare(b.date)||Number(isNotice(a))-Number(isNotice(b)));
 }
-function fixtureHTML(f,extraClass=''){const home=isHome(f);const past=isPast(f);const maps=mapsUrl(f);const score=scoreOf(f);const result=ourResult(f);const opponent=opponentOf(f);const prevShort=previousSeasonLabel(opponent,{short:true});const prevFull=previousSeasonLabel(opponent);const prevTitle=previousSeasonTitle(opponent);const middle=score?`<span class="score score-${result}">${scoreLabel(score)}</span>`:'<span class="vs">vs</span>';const status=score?`Volgens ATC-wedstrijdblad.`:`Nog geen uitslag bij controle op ${formatChecked(clubData.checked)}.`;const route=home?'':routeLink(f,'Route');const venueExtra=`<small>${score?scoreLabel(score):'22u'}</small>`;const drive=driveFromMechelen(f);const prevMeta=prevShort?`<span>·</span><span class="fixture-prev" title="${escapeHTML(prevTitle)}">VJ ${escapeHTML(prevShort)}</span>`:'';const facts=`<dl class="fixture-facts">${score?`<div><dt>Uitslag</dt><dd>${scoreLabel(score)}</dd></div>`:''}${prevFull?`<div><dt>Vorig seizoen</dt><dd title="${escapeHTML(prevTitle)}">${escapeHTML(prevFull)}</dd></div>`:''}${drive?`<div><dt>Rit</dt><dd class="drive-note">${escapeHTML(drive)}</dd></div>`:''}</dl>`;return `<details class="fixture${past?' past':''}${extraClass}"><summary>${dateStamp(f)}<div><div class="fixture-teams"><span class="${home?'ours':''}">${escapeHTML(f.home)}</span>${middle}<span class="${!home?'ours':''}">${escapeHTML(f.away)}</span></div><div class="fixture-meta"><span class="${f.type==='beker'?'cup-tag':'competition'}">${f.type==='beker'?cupLabel():'COMPETITIE · 1A'}</span><span>·</span><span>${home?'THUIS':'UIT'}</span>${prevMeta}${past?'<span class="played-tag">Gespeeld</span>':''}${route}</div></div><div class="venue">${escapeHTML(f.venue)}${venueExtra}</div><span class="fixture-toggle" aria-hidden="true">＋</span></summary><div class="fixture-detail"><div class="fixture-body"><div class="fixture-place"><p class="fixture-venue-name">${escapeHTML(f.venue)}</p><p class="fixture-address">${escapeHTML(f.address)}</p></div>${facts}<p class="fixture-status">${status}</p></div><div class="fixture-links">${home?'':`<a class="route-link" href="${maps}" target="_blank" rel="noopener">${routeLabel('Route')}</a>`}<a href="${f.url}" target="_blank" rel="noopener">Wedstrijdblad ATC ↗</a></div></div></details>`}
+function fixtureHTML(f,extraClass=''){const home=isHome(f);const past=isPast(f);const maps=mapsUrl(f);const score=scoreOf(f);const result=ourResult(f);const opponent=opponentOf(f);const sets=ourSets(f);const prevShort=previousSeasonLabel(opponent,{short:true});const prevFull=previousSeasonLabel(opponent);const prevTitle=previousSeasonTitle(opponent);const status=score?`Volgens ATC-wedstrijdblad.`:`Nog geen uitslag bij controle op ${formatChecked(clubData.checked)}.`;const route=home||score?'':`<span>·</span>${routeLink(f,'Route')}`;const drive=driveFromMechelen(f);const prevMeta=prevShort?`<span>·</span><span class="fixture-prev" title="${escapeHTML(prevTitle)}">VJ ${escapeHTML(prevShort)}</span>`:'';const facts=`<dl class="fixture-facts">${score?`<div><dt>Uitslag</dt><dd>${escapeHTML(f.home)} – ${escapeHTML(f.away)}: ${scoreLabel(score)}</dd></div>`:''}${prevFull?`<div><dt>Vorig seizoen</dt><dd title="${escapeHTML(prevTitle)}">${escapeHTML(prevFull)}</dd></div>`:''}${drive?`<div><dt>Rit</dt><dd class="drive-note">${escapeHTML(drive)}</dd></div>`:''}</dl>`;const right=sets?`<span class="fixture-score score-${result}">${sets.ours}–${sets.theirs}</span>`:`<span class="fixture-when">22u<small>${escapeHTML(home?'Kontich':townOf(f))}</small></span>`;return `<details class="fixture${past?' past':''}${extraClass}"><summary>${dateStamp(f)}<div class="fixture-main"><p class="fixture-opp">${escapeHTML(opponent)}</p><div class="fixture-meta"><span class="${f.type==='beker'?'cup-tag':'competition'}">${f.type==='beker'?cupLabel():'COMPETITIE · 1A'}</span><span>·</span><span>${home?'THUIS':'UIT'}</span>${prevMeta}${route}</div></div>${beadsHTML(f)}${right}</summary><div class="fixture-detail"><div class="fixture-body"><div class="fixture-place"><p class="fixture-venue-name">${escapeHTML(f.venue)}</p><p class="fixture-address">${escapeHTML(f.address)}</p></div>${facts}<p class="fixture-status">${status}</p></div><div class="fixture-links">${home?'':`<a class="route-link" href="${maps}" target="_blank" rel="noopener" aria-label="Route naar ${escapeHTML(f.venue)}">${routeLabel('Route')}</a>`}<a href="${f.url}" target="_blank" rel="noopener">Wedstrijdblad ATC ↗</a></div></div></details>`}
 function placeholderHTML(f){const past=isPast(f);const finales=String(f.note||'').toLowerCase().includes('finale');const title=finales?'Finale':'Beker';const copy=finales?'Finale volgens de ATC-kalender. Tegenstander volgt zodra ATC die bekendmaakt.':'Tegenstander volgt. ATC heeft deze bekerdag nog niet ingevuld.';return `<div class="calendar-note is-beker${past?' past':''}">${dateStamp(f)}<div><p class="note-title">${cupIcon}${title}</p><p class="note-copy">${copy}</p></div></div>`}
 function noticeHTML(f){const past=isPast(f);const copy=f.type==='inhaaldag'?{title:'Inhaaldag',text:'Geen wedstrijd. ATC houdt deze dag vrij voor inhaalwedstrijden.'}:f.type==='kampioenschappen'?{title:'Kampioenschappen',text:'Geen ploegwedstrijd van De Zwaluw.'}:{title:'Andere',text:'Geen ploegwedstrijd van De Zwaluw.'};return `<div class="calendar-note is-${f.type}${past?' past':''}">${dateStamp(f)}<div><p class="note-title">${copy.title}</p><p class="note-copy">${copy.text}</p></div></div>`}
 function rowHTML(f,extraClass=''){if(isNotice(f))return noticeHTML(f);if(!isMatch(f))return placeholderHTML(f);return fixtureHTML(f,extraClass)}
 function bindRouteLinks(root){root.querySelectorAll('.route-link').forEach(link=>{['click','pointerdown'].forEach(type=>link.addEventListener(type,event=>event.stopPropagation()))})}
 function bindFixtureAccordion(root){root.querySelectorAll('details.fixture').forEach(item=>item.addEventListener('toggle',()=>{if(!item.open)return;root.querySelectorAll('details.fixture[open]').forEach(other=>{if(other!==item)other.open=false})}))}
-function panelHTML(list,empty,extra){const rows=list.length?list.map(f=>rowHTML(f,extra&&extra(f)||'')).join(''):`<p class="empty">${empty}</p>`;return `<div class="calendar-caption"><span>DATUM / WEDSTRIJD</span><span>LOCATIE</span></div>${rows}`}
+function panelHTML(list,empty,extra){return list.length?list.map(f=>rowHTML(f,extra&&extra(f)||'')).join(''):`<p class="empty">${empty}</p>`}
 function resultCountLabel(tab,n){
  if(tab==='upcoming')return n===1?'wedstrijd nog te spelen':'wedstrijden nog te spelen';
  if(tab==='played')return n===1?'gespeelde wedstrijd':'gespeelde wedstrijden';
@@ -82,10 +84,12 @@ function rankedByAttendance(){
   return byName(a,b);
  });
 }
+function initialsOf(p){const words=String(p.display||p.name).split(/[\s.]+/).filter(Boolean);return (words[0][0]+(words.length>1?words[words.length-1][0]:'')).toUpperCase()}
+function thumbOf(src){return src?String(src).replace('assets/players/','assets/players/thumbs/').replace(/\.png$/,'.webp'):''}
 function playerRowHTML(p,{rank,lead,subtitle,score,unit}){
- const photo=lead&&p.crown?p.crown:p.photo;
+ const photo=thumbOf(lead&&p.crown?p.crown:p.photo);
  const name=escapeHTML(p.display||p.name);
- const image=photo?`<img class="klassement-photo" src="${photo}" width="160" height="160" alt="${name}"${lead?'':' loading="lazy"'}>`:`<span class="klassement-photo is-empty" aria-hidden="true">${escapeHTML((p.display||p.name).split(' ').map(w=>w[0]).join('').slice(0,2))}</span>`;
+ const image=photo?`<img class="klassement-photo" src="${photo}" width="240" height="240" alt="${name}"${lead?'':' loading="lazy"'}>`:`<span class="klassement-photo is-empty" aria-hidden="true">${escapeHTML(initialsOf(p))}</span>`;
  return `<li class="klassement-row${lead?' is-lead':''}"><span class="klassement-rank">${String(rank).padStart(2,'0')}</span>${image}<span class="klassement-player"><span class="klassement-name">${name}</span><span class="klassement-games">${subtitle}</span></span><span class="klassement-points">${score} <small>${unit}</small></span></li>`;
 }
 function klassementHTML(){
@@ -100,6 +104,8 @@ function klassementHTML(){
   return playerRowHTML(p,{rank,lead:points===top&&top>0,subtitle:gamesLabel(gamesPlayed(p)),score:points,unit:'pt'});
  }).join('')}</ol>`;
 }
+function teamMatchesPlayed(){return (clubData.fixtures||[]).filter(scoreOf).length}
+function attendanceBeads(games){const total=teamMatchesPlayed();if(!total)return '';return `<span class="attendance-beads" aria-hidden="true">${Array.from({length:total},(_,i)=>`<i${i<games?' class="on"':''}></i>`).join('')}</span>`}
 function aanwezigheidHTML(){
  const rows=rankedByAttendance();
  const top=Math.max(0,...rows.map(gamesPlayed));
@@ -109,7 +115,7 @@ function aanwezigheidHTML(){
   const key=klassementPin(p)+':'+games;
   const rank=key===lastKey?lastRank:i+1;
   lastKey=key;lastRank=rank;
-  return playerRowHTML(p,{rank,lead:games===top&&top>0,subtitle:attendanceLabel(games),score:games,unit:'aanw'});
+  return playerRowHTML(p,{rank,lead:games===top&&top>0,subtitle:attendanceBeads(games)+attendanceLabel(games),score:games,unit:'aanw'});
  }).join('')}</ol>`;
 }
 function selectCalendarTab(root,name){
@@ -124,7 +130,7 @@ function selectCalendarTab(root,name){
  });
  const active=tabs.find(tab=>tab.dataset.tab===name)||tabs[0];
  const n=Number(active.dataset.count||0);
- const count=document.querySelector('#result-count');
+ const count=root===document.querySelector('#fixtures')?document.querySelector('#result-count'):null;
  if(count)count.textContent=`${n} ${resultCountLabel(active.dataset.tab,n)} · Seizoen 2026–2027`;
 }
 function bindCalendarTabs(root){
@@ -150,38 +156,58 @@ function renderFixtures(){
  const playablePast=past.filter(isMatch);
  const nextUp=playableUpcoming.find(isMatch);
  const root=document.querySelector('#fixtures');
- root.innerHTML=`<div class="calendar-tabs" role="tablist" aria-label="Wedstrijden, klassement en aanwezigheid"><button type="button" role="tab" id="tab-upcoming" data-tab="upcoming" data-count="${playableUpcoming.length}" aria-selected="true" aria-controls="panel-upcoming" tabindex="0">Nog te spelen <span>${playableUpcoming.length}</span></button><button type="button" role="tab" id="tab-played" data-tab="played" data-count="${playablePast.length}" aria-selected="false" aria-controls="panel-played" tabindex="-1">Gespeeld <span>${playablePast.length}</span></button><button type="button" role="tab" id="tab-klassement" data-tab="klassement" data-count="${clubData.players.length}" aria-selected="false" aria-controls="klassement" tabindex="-1">Klassement</button><button type="button" role="tab" id="tab-aanwezigheid" data-tab="aanwezigheid" data-count="${clubData.players.length}" aria-selected="false" aria-controls="aanwezigheid" tabindex="-1">Aanwezigheid</button></div><div id="panel-upcoming" class="calendar-panel" role="tabpanel" aria-labelledby="tab-upcoming">${panelHTML(upcoming,'Geen wedstrijden meer te spelen in deze kalender.',f=>f===nextUp?' next':'')}</div><div id="panel-played" class="calendar-panel" role="tabpanel" hidden aria-labelledby="tab-played">${panelHTML(past,'Nog geen gespeelde wedstrijden in deze kalender.')}</div><div id="klassement" class="calendar-panel" role="tabpanel" hidden aria-labelledby="tab-klassement">${klassementHTML()}</div><div id="aanwezigheid" class="calendar-panel" role="tabpanel" hidden aria-labelledby="tab-aanwezigheid">${aanwezigheidHTML()}</div>`;
+ // «Nog te spelen» is het eerste en actieve tabblad; gespeeld staat nieuwste eerst.
+ root.innerHTML=`<div class="calendar-tabs" role="tablist" aria-label="Wedstrijden"><button type="button" role="tab" id="tab-upcoming" data-tab="upcoming" data-count="${playableUpcoming.length}" aria-selected="true" aria-controls="panel-upcoming" tabindex="0">Nog te spelen · ${playableUpcoming.length}</button><button type="button" role="tab" id="tab-played" data-tab="played" data-count="${playablePast.length}" aria-selected="false" aria-controls="panel-played" tabindex="-1">Gespeeld · ${playablePast.length}</button></div><div id="panel-upcoming" class="calendar-panel" role="tabpanel" aria-labelledby="tab-upcoming">${panelHTML(upcoming,'Geen wedstrijden meer te spelen in deze kalender.',f=>f===nextUp?' next':'')}</div><div id="panel-played" class="calendar-panel" role="tabpanel" hidden aria-labelledby="tab-played">${panelHTML([...past].reverse(),'Nog geen gespeelde wedstrijden in deze kalender.')}</div>`;
  const count=document.querySelector('#result-count');
  if(count)count.textContent=`${playableUpcoming.length} ${resultCountLabel('upcoming',playableUpcoming.length)} · Seizoen 2026–2027`;
- const hash=typeof location!=='undefined'?location.hash:'';
- const start=hash==='#klassement'?'klassement':hash==='#aanwezigheid'?'aanwezigheid':'upcoming';
- selectCalendarTab(root,start);
+ selectCalendarTab(root,'upcoming');
  bindRouteLinks(root);
  bindFixtureAccordion(root);
  bindCalendarTabs(root);
 }
 renderFixtures();
-function renderStandings(){
- const rows=clubData.standings&&clubData.standings.rows;
- const box=document.querySelector('.standings-section .table-area');
- const note=document.querySelector('.standings-section .source-note');
- if(!rows||!rows.length||!box)return;
+function signed(n){n=Number(n)||0;return n>0?`+${n}`:String(n).replace('-','−')}
+function teamTableHTML(){
+ const rows=clubData.standings&&clubData.standings.rows||[];
  const date=formatChecked(clubData.checked);
+ return `<table><caption class="sr-only">Stand ATC reeks 1A, ${date}</caption><thead><tr><th scope="col">#</th><th scope="col">Ploeg</th><th scope="col"><abbr title="Gespeeld">GS</abbr></th><th scope="col"><abbr title="Gewonnen">W</abbr></th><th scope="col"><abbr title="Gelijk">G</abbr></th><th scope="col"><abbr title="Verloren">V</abbr></th><th scope="col"><abbr title="Setsaldo">+/−</abbr></th><th scope="col"><abbr title="Punten">Pt</abbr></th></tr></thead><tbody>${rows.map(row=>{const ours=row.team==='De Zwaluw';return `<tr class="${ours?'our-team':''}"><td>${Number(row.rank)||''}</td><th scope="row">${ours?'De Zwaluw <span>WIJ</span>':escapeHTML(row.team)}</th><td>${Number(row.played)||0}</td><td>${Number(row.won)||0}</td><td>${Number(row.drawn)||0}</td><td>${Number(row.lost)||0}</td><td>${signed(row.sets)}</td><td class="pts">${Number(row.points)||0}</td></tr>`}).join('')}</tbody></table><p class="card-note">Reeks 1A. De beker telt niet mee.</p>`;
+}
+function renderStandings(){
+ const card=document.querySelector('#standings-card');
+ const rows=clubData.standings&&clubData.standings.rows;
+ if(card){
+  card.innerHTML=`<div class="standings-tabs" role="tablist" aria-label="Soort klassement"><button type="button" role="tab" id="tab-ploegen" data-tab="ploegen" aria-selected="true" aria-controls="panel-ploegen" tabindex="0">Ploegen</button><button type="button" role="tab" id="tab-klassement" data-tab="klassement" aria-selected="false" aria-controls="klassement" tabindex="-1">Individueel</button><button type="button" role="tab" id="tab-aanwezigheid" data-tab="aanwezigheid" aria-selected="false" aria-controls="aanwezigheid" tabindex="-1">Aanwezigheid</button></div><div id="panel-ploegen" class="calendar-panel" role="tabpanel" aria-labelledby="tab-ploegen">${teamTableHTML()}</div><div id="klassement" class="calendar-panel" role="tabpanel" hidden aria-labelledby="tab-klassement">${klassementHTML()}<p class="card-note">Punten volgens de ATC-wedstrijdbladen. De koploper krijgt de kroon.</p></div><div id="aanwezigheid" class="calendar-panel" role="tabpanel" hidden aria-labelledby="tab-aanwezigheid">${aanwezigheidHTML()}<p class="card-note">Elke gespeelde match telt als één. De koploper krijgt de kroon.</p></div>`;
+  const hash=typeof location!=='undefined'?location.hash:'';
+  selectCalendarTab(card,hash==='#klassement'?'klassement':hash==='#aanwezigheid'?'aanwezigheid':'ploegen');
+  bindCalendarTabs(card);
+ }
+ const note=document.querySelector('.standings-section .source-note');
+ if(!rows||!rows.length||!note)return;
  const played=rows.some(row=>Number(row.played)>0);
- if(note)note.innerHTML=`Stand op ${date}.<br>${played?'':'Nog geen competitiewedstrijden gespeeld.<br>'}De volgorde volgt ATC.<br>Grijs label = eindstand vorig seizoen (2025–2026).`;
- box.innerHTML=`<table><caption class="sr-only">Stand ATC reeks 1A, ${date}</caption><thead><tr><th scope="col">#</th><th scope="col">TEAM</th><th scope="col"><abbr title="Gespeeld">GS</abbr></th><th scope="col"><abbr title="Gewonnen">W</abbr></th><th scope="col"><abbr title="Gelijk">G</abbr></th><th scope="col"><abbr title="Verloren">V</abbr></th><th scope="col">SETS</th></tr></thead><tbody>${rows.map(row=>{const ours=row.team==='De Zwaluw';const prev=row.previous?` <span class="prev-season" title="Eindstand reguliere competitie seizoen 2025–2026">${escapeHTML(row.previous)}</span>`:'';return `<tr class="${ours?'our-team':''}"><td>${String(row.rank).padStart(2,'0')}</td><th scope="row">${ours?'De Zwaluw <span>WIJ</span>':escapeHTML(row.team)}${prev}</th><td>${Number(row.played)||0}</td><td>${Number(row.won)||0}</td><td>${Number(row.drawn)||0}</td><td>${Number(row.lost)||0}</td><td>${Number(row.sets)||0}</td></tr>`}).join('')}</tbody></table>`;
+ note.innerHTML=`Stand op ${formatChecked(clubData.checked)}.${played?'':' Nog geen competitiewedstrijden gespeeld.'} De volgorde volgt ATC.`;
 }
 renderStandings();
-window.addEventListener('hashchange',()=>{const root=document.querySelector('#fixtures');if(!root)return;if(location.hash==='#klassement')selectCalendarTab(root,'klassement');if(location.hash==='#aanwezigheid')selectCalendarTab(root,'aanwezigheid')});
-document.querySelectorAll('.cup-match').forEach(card=>{const fixture=clubData.fixtures.find(f=>f.url===card.href);const score=fixture&&scoreOf(fixture);if(!score)return;const heading=card.querySelector('h3');if(heading)heading.innerHTML=`${escapeHTML(fixture.home)} <span class="cup-score score-${ourResult(fixture)}">${scoreLabel(score)}</span> ${escapeHTML(fixture.away)}`});
+// De stangen staan in index.html (zo werkt de fotoviewer ook zonder wachten); hier komen enkel de actuele punten in.
+function renderRodStats(){
+ document.querySelectorAll('[data-stats]').forEach(el=>{
+  const p=clubData.players.find(player=>player.member===el.dataset.stats);
+  if(!p)return;
+  const games=gamesPlayed(p);
+  el.textContent=`${Number(p.points)||0} punten · ${games} ${games===1?'match':'matchen'}`;
+ });
+}
+renderRodStats();
+window.addEventListener('hashchange',()=>{const card=document.querySelector('#standings-card');if(!card)return;if(location.hash==='#klassement')selectCalendarTab(card,'klassement');if(location.hash==='#aanwezigheid')selectCalendarTab(card,'aanwezigheid')});
 const next=clubData.fixtures.find(f=>!scoreOf(f)&&f.date>=today)||clubData.fixtures.find(f=>f.date>=today);
-if(next){const [year,month,day]=next.date.split('-');const away=!isHome(next);const opponent=opponentOf(next);const prevFull=previousSeasonLabel(opponent);document.querySelector('.match-label p').innerHTML=(next.type==='beker'?cupLabel():'COMPETITIE · 1A')+' <span>'+(away?'UIT':'THUIS')+'</span>';document.querySelector('.next-teams').innerHTML=`${isHome(next)?'<strong>De Zwaluw</strong>':escapeHTML(next.home)} <span>vs</span> ${!isHome(next)?'<strong>De Zwaluw</strong>':escapeHTML(next.away)}`;const prevEl=document.querySelector('.next-prev-season');if(prevEl){if(prevFull){prevEl.hidden=false;prevEl.innerHTML=`Vorig seizoen: <strong>${escapeHTML(prevFull)}</strong>`;prevEl.title=previousSeasonTitle(opponent)}else{prevEl.hidden=true;prevEl.textContent='';prevEl.removeAttribute('title')}}document.querySelector('.next-date').innerHTML=`<strong>${day} ${months[Number(month)-1].toUpperCase()}</strong><span>Vrijdag · ${year}</span>`;const nextLink=document.querySelector('.next-match .round-link');if(away){const hint=driveHint(next);nextLink.href=mapsUrl(next);nextLink.classList.add('is-route');nextLink.innerHTML=`<span class="route-main">${routeLabel('Route')}</span>${hint?`<span class="route-drive">${escapeHTML(hint)} vanuit Mechelen</span>`:''}`;nextLink.setAttribute('aria-label',hint?`Route naar ${next.venue}, ${hint} vanuit Mechelen`:`Route naar ${next.venue}`)}else{nextLink.href=next.url;nextLink.classList.remove('is-route');nextLink.textContent='↗';nextLink.setAttribute('aria-label',`${next.home} tegen ${next.away} op ATC`)}}else{document.querySelector('.next-match').innerHTML='<div><p class="eyebrow">SEIZOEN 2026–2027</p><p>Geen latere bevestigde wedstrijd in deze kalender. <a class="text-link" href="https://www.atc-tafelvoetbal.be/clubs/186" target="_blank" rel="noopener">Bekijk ATC voor nieuwe data ↗</a></p></div>'}
+const weekdays=['ZO','MA','DI','WO','DO','VR','ZA'];
+function previousMeeting(f){const opponent=opponentOf(f);return [...clubData.fixtures].filter(g=>g!==f&&scoreOf(g)&&g.date<f.date&&opponentOf(g)===opponent).pop()||null}
+if(next){const [year,month,day]=next.date.split('-');const away=!isHome(next);const opponent=opponentOf(next);const prevFull=previousSeasonLabel(opponent);const weekday=weekdays[new Date(`${next.date}T12:00:00Z`).getUTCDay()];document.querySelector('.match-label p').innerHTML=`VOLGENDE MATCH · ${next.type==='beker'?cupLabel():'COMPETITIE · 1A'} · ${away?'UIT':'THUIS'}`;document.querySelector('.next-teams').textContent=`${next.home} – ${next.away}`;const venue=document.querySelector('.next-venue');if(venue)venue.textContent=away?`${next.venue}, ${townOf(next)}`:`${next.venue}, Kontich · thuis`;const prevEl=document.querySelector('.next-prev-season');if(prevEl){if(prevFull){prevEl.hidden=false;prevEl.innerHTML=`Vorig seizoen: <strong>${escapeHTML(prevFull)}</strong>`;prevEl.title=previousSeasonTitle(opponent)}else{prevEl.hidden=true;prevEl.textContent='';prevEl.removeAttribute('title')}}document.querySelector('.next-date').innerHTML=`<strong>${Number(day)}</strong><span>${months[Number(month)-1].toUpperCase()} · ${weekday} 22U</span>`;const leg=document.querySelector('.next-leg');const meeting=previousMeeting(next);if(leg){if(meeting){const sets=ourSets(meeting);leg.hidden=false;leg.innerHTML=`<p>${meeting.type===next.type&&next.type==='beker'?'Heenmatch':'Vorige keer'}: ${sets.ours}–${sets.theirs}</p>${beadsHTML(meeting)}`}else{leg.hidden=true;leg.innerHTML=''}}const nextLink=document.querySelector('.next-match .round-link');if(away){const hint=driveHint(next);nextLink.href=mapsUrl(next);nextLink.classList.add('is-route');nextLink.innerHTML=`<span class="route-main">${routeLabel('Toon de route')}</span>${hint?`<span class="route-drive">${escapeHTML(hint)} vanuit Mechelen</span>`:''}`;nextLink.setAttribute('aria-label',hint?`Route naar ${next.venue}, ${hint} vanuit Mechelen`:`Route naar ${next.venue}`)}else{nextLink.href=next.url;nextLink.classList.remove('is-route');nextLink.textContent='Wedstrijdblad op ATC ↗';nextLink.setAttribute('aria-label',`${next.home} tegen ${next.away} op ATC`)}}else{document.querySelector('.next-match').innerHTML='<div class="next-empty"><p class="eyebrow">SEIZOEN 2026–2027</p><p>Geen latere bevestigde wedstrijd in deze kalender. <a class="text-link" href="https://www.atc-tafelvoetbal.be/clubs/186" target="_blank" rel="noopener">Bekijk ATC voor nieuwe data ↗</a></p></div>'}
 const reduced=matchMedia('(prefers-reduced-motion: reduce)');let motionEnabled=!reduced.matches;
 const motionButton=document.createElement('button');motionButton.className='motion-control';document.querySelector('footer').append(motionButton);
 function motionState(){document.documentElement.classList.toggle('no-motion',!motionEnabled);motionButton.textContent=motionEnabled?'Beweging aan':'Beweging uit';motionButton.setAttribute('aria-label',motionEnabled?'Animaties uitschakelen':'Animaties inschakelen');motionButton.setAttribute('aria-pressed',String(motionEnabled))}motionState();motionButton.addEventListener('click',()=>{motionEnabled=!motionEnabled;motionState()});reduced.addEventListener('change',e=>{motionEnabled=!e.matches;motionState()});
 const hero=document.querySelector('.hero'),bird=document.querySelector('.hero-art img');
 hero.addEventListener('pointermove',e=>{if(!motionEnabled||e.pointerType!=='mouse')return;const rect=hero.getBoundingClientRect();const x=(e.clientX-rect.left)/rect.width-.5,y=(e.clientY-rect.top)/rect.height-.5;bird.style.transform=`translate(${x*26}px,${y*22}px) rotate(${x*1.8}deg) scale(1.015)`});hero.addEventListener('pointerleave',()=>{bird.style.transform='none'});
-const observer=new IntersectionObserver(entries=>entries.forEach(entry=>{if(entry.isIntersecting){if(motionEnabled)entry.target.classList.add('reveal');observer.unobserve(entry.target)}}),{threshold:.12});document.querySelectorAll('.section-title,.cup-intro,.cup-fixtures,.standings-intro,.team-heading,.home-name,.home-address').forEach(el=>observer.observe(el));
+const observer=new IntersectionObserver(entries=>entries.forEach(entry=>{if(entry.isIntersecting){entry.target.classList.add('reveal');observer.unobserve(entry.target)}}),{threshold:.12});document.querySelectorAll('.section-head,.standings-section,.team-section,.home-copy').forEach(el=>{if(motionEnabled)el.classList.add('reveal-ready');observer.observe(el)});
 document.addEventListener('keydown',e=>{if(e.key==='Escape'){menu.setAttribute('aria-expanded','false');document.querySelector('nav').classList.remove('open')}});
 if(typeof history!=='undefined'&&'scrollRestoration' in history)history.scrollRestoration='manual';
 function startAtTop(){if(typeof location!=='undefined'&&location.hash)return;const top=()=>{if(window.scrollTo)window.scrollTo(0,0);if(document.documentElement)document.documentElement.scrollTop=0;if(document.body)document.body.scrollTop=0};top();if(typeof requestAnimationFrame==='function')requestAnimationFrame(top)}
