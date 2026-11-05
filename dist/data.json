@@ -1,5 +1,5 @@
 {
-  "checked": "2026-10-24",
+  "checked": "2026-11-05",
   "fixtures": [
     {
       "date": "2026-09-11",
@@ -91,6 +91,29 @@
       "url": "https://www.atc-tafelvoetbal.be/wedstrijden/3027",
       "venue": "Café De Zwaluw",
       "address": "Molenstraat 47, 2550 Kontich"
+    },
+    {
+      "date": "2026-10-30",
+      "type": "beker",
+      "home": "De Zwaluw",
+      "away": "Peeke Binne",
+      "score": {
+        "home": 14,
+        "away": 4
+      },
+      "url": "https://www.atc-tafelvoetbal.be/wedstrijden/3592",
+      "venue": "Café De Zwaluw",
+      "address": "Molenstraat 47, 2550 Kontich"
+    },
+    {
+      "date": "2026-11-13",
+      "type": "beker",
+      "home": "Peeke Binne",
+      "away": "De Zwaluw",
+      "score": null,
+      "url": "https://www.atc-tafelvoetbal.be/wedstrijden/3624",
+      "venue": "Jake's Place",
+      "address": "Boskant 10, 2260 Westerlo"
     },
     {
       "date": "2026-11-20",
@@ -230,11 +253,11 @@
       "ranking": "2P",
       "url": "https://www.atc-tafelvoetbal.be/players/201",
       "display": "Peter De Bie",
-      "points": 10,
+      "points": 14,
       "photo": "assets/players/peter-de-bie.png",
       "crown": "assets/players/peter-de-bie-kroon.png",
       "played": true,
-      "games": 7
+      "games": 8
     },
     {
       "name": "T. Choi",
@@ -242,11 +265,11 @@
       "ranking": "2P",
       "url": "https://www.atc-tafelvoetbal.be/players/139",
       "display": "Tseng-sing Choi",
-      "points": 11,
+      "points": 15,
       "photo": "assets/players/tseng-sing-choi.png",
       "crown": "assets/players/tseng-sing-choi-kroon.png",
       "played": true,
-      "games": 6
+      "games": 7
     },
     {
       "name": "K. Lesaffre",
@@ -254,11 +277,11 @@
       "ranking": "2P",
       "url": "https://www.atc-tafelvoetbal.be/players/554",
       "display": "Kristof Lesaffre",
-      "points": 19,
+      "points": 24,
       "photo": "assets/players/kristof-lesaffre.png",
       "crown": "assets/players/kristof-lesaffre-kroon.png",
       "played": true,
-      "games": 6
+      "games": 7
     },
     {
       "name": "J. Peeters",
@@ -266,11 +289,11 @@
       "ranking": "2P",
       "url": "https://www.atc-tafelvoetbal.be/players/759",
       "display": "Jeroen Peeters",
-      "points": 17,
+      "points": 22,
       "photo": "assets/players/jeroen-peeters.png",
       "crown": "assets/players/jeroen-peeters-kroon.png",
       "played": true,
-      "games": 7
+      "games": 8
     },
     {
       "name": "G. Jacobs",
@@ -278,11 +301,11 @@
       "ranking": "1P",
       "url": "https://www.atc-tafelvoetbal.be/players/483",
       "display": "Gregory Jacobs",
-      "points": 6,
+      "points": 11,
       "photo": "assets/players/gregory-jacobs.png",
       "crown": "assets/players/gregory-jacobs-kroon.png",
       "played": true,
-      "games": 5
+      "games": 6
     },
     {
       "name": "P. Godefroy",
@@ -350,11 +373,11 @@
       "ranking": "3P",
       "url": "https://www.atc-tafelvoetbal.be/players/1352",
       "display": "Dave Van Mol",
-      "points": 5,
+      "points": 10,
       "photo": "assets/players/dave-van-mol.png",
       "crown": "assets/players/dave-van-mol-kroon.png",
       "played": true,
-      "games": 5
+      "games": 6
     }
   ],
   "standings": {
@@ -477,16 +500,8 @@
       "type": "Andere"
     },
     {
-      "date": "2026-10-30",
-      "type": "Beker"
-    },
-    {
       "date": "2026-11-06",
       "type": "Inhaaldag"
-    },
-    {
-      "date": "2026-11-13",
-      "type": "Beker"
     },
     {
       "date": "2026-12-11",

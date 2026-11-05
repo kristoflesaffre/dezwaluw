@@ -26,7 +26,16 @@ function freezeDate(iso) {
   };
 }
 
-function setup({ today = data.checked } = {}) {
+// Na de laatste wedstrijd van het seizoen blijven de tests op de dag ervoor staan: er moet een volgende match zijn.
+function defaultToday() {
+  const last = data.fixtures.map((fixture) => fixture.date).sort().at(-1);
+  if (data.checked < last) return data.checked;
+  const day = new Date(`${last}T12:00:00Z`);
+  day.setUTCDate(day.getUTCDate() - 1);
+  return day.toISOString().slice(0, 10);
+}
+
+function setup({ today = defaultToday() } = {}) {
   const fixtures = { innerHTML: '', querySelector() { return null; }, querySelectorAll() { return []; } };
   const resultCount = { textContent: '' };
   const nextLink = { href: '', classList: { add() {}, remove() {} }, setAttribute() {}, textContent: '', innerHTML: '' };
@@ -111,9 +120,9 @@ test('the calendar lists every cup and league match without a show-more control'
   assert.match(css, /\.calendar-tabs\{[^}]*overflow-x:auto/);
   assert.equal((fixtures.innerHTML.match(/<details class="fixture/g) || []).length, data.fixtures.length);
   assert.doesNotMatch(fixtures.innerHTML, /is-placeholder/);
-  assert.equal((fixtures.innerHTML.match(/calendar-note is-beker/g) || []).length, 12);
-  assert.equal((fixtures.innerHTML.match(/calendar-note is-inhaaldag/g) || []).length, 7);
-  assert.equal((fixtures.innerHTML.match(/calendar-note is-kampioenschappen/g) || []).length, 6);
+  assert.equal((fixtures.innerHTML.match(/calendar-note is-beker/g) || []).length, data.other.filter((item) => item.type === 'Beker').length);
+  assert.equal((fixtures.innerHTML.match(/calendar-note is-inhaaldag/g) || []).length, data.other.filter((item) => item.type === 'Inhaaldag').length);
+  assert.equal((fixtures.innerHTML.match(/calendar-note is-kampioenschappen/g) || []).length, data.other.filter((item) => item.type === 'Kampioenschappen').length);
   assert.match(fixtures.innerHTML, /class="cup-icon"/);
   assert.match(fixtures.innerHTML, /BEKER VAN ATC/);
   assert.match(fixtures.innerHTML, /COMPETITIE · 1A/);
@@ -141,10 +150,15 @@ test('upcoming matches are the default tab and played matches sit on the second 
   const nextAt = fixtures.innerHTML.indexOf(next.url);
   assert.ok(nextAt > upcoming && nextAt < played);
   assert.match(resultCount.textContent, /\d+ wedstrijden nog te spelen/);
-  const oct23 = fixtures.innerHTML.indexOf('2026-10-23');
-  const oct30 = fixtures.innerHTML.indexOf('2026-10-30');
-  const nov6 = fixtures.innerHTML.indexOf('2026-11-06');
-  assert.ok(oct23 > 0 && oct30 > oct23 && nov6 > oct30);
+  // Binnen elk tabblad chronologisch; welke datum in welk tabblad staat, schuift mee met de dag.
+  const klassement = fixtures.innerHTML.indexOf('id="panel-klassement"');
+  const end = klassement > played ? klassement : fixtures.innerHTML.length;
+  for (const panel of [fixtures.innerHTML.slice(upcoming, played), fixtures.innerHTML.slice(played, end)]) {
+    const positions = data.fixtures
+      .map((fixture) => panel.indexOf(fixture.url))
+      .filter((at) => at >= 0);
+    assert.deepEqual(positions, [...positions].sort((a, b) => a - b));
+  }
 });
 
 test('away matches open Google Maps from the overview; past matches are marked', () => {

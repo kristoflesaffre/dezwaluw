@@ -11,7 +11,8 @@ const ics = fs.readFileSync(path.join(root, 'dist', 'de-zwaluw.ics'), 'utf8');
 
 test('the ICS file lists every confirmed De Zwaluw match from 22u to midnight', () => {
   const matches = data.fixtures.filter((f) => f.home && f.away);
-  assert.equal(matches.length, 20);
+  // 18 competitiematchen, plus de bekermatchen die ATC in de loop van het seizoen invult.
+  assert.ok(matches.filter((f) => f.type === 'competitie').length === 18);
   assert.equal((ics.match(/BEGIN:VEVENT/g) || []).length, matches.length);
   assert.match(ics, /X-WR-CALNAME:De Zwaluw/);
   assert.match(ics, /X-WR-TIMEZONE:Europe\/Brussels/);
