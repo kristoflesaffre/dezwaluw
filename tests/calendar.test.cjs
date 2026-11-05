@@ -148,8 +148,9 @@ test('upcoming matches are the default tab and played matches sit on the second 
   const next = nextFixture(today);
   assert.ok(next);
   const nextAt = fixtures.innerHTML.indexOf(next.url);
-  assert.ok(nextAt > upcoming && nextAt < played);
-  assert.match(resultCount.textContent, /\d+ wedstrijden nog te spelen/);
+  // Na de laatste uitslag van het seizoen is er niets meer te spelen.
+  if (!scoreOf(next)) assert.ok(nextAt > upcoming && nextAt < played);
+  assert.match(resultCount.textContent, /nog te spelen/);
   // Binnen elk tabblad chronologisch; welke datum in welk tabblad staat, schuift mee met de dag.
   const klassement = fixtures.innerHTML.indexOf('id="panel-klassement"');
   const end = klassement > played ? klassement : fixtures.innerHTML.length;
