@@ -1,5 +1,5 @@
 {
-  "checked": "2026-11-05",
+  "checked": "2026-11-07",
   "fixtures": [
     {
       "date": "2026-09-11",
@@ -406,6 +406,17 @@
       },
       {
         "rank": 3,
+        "team": "Foosforce",
+        "points": 8,
+        "played": 5,
+        "won": 4,
+        "drawn": 0,
+        "lost": 1,
+        "sets": 40,
+        "previous": "1A · 1e"
+      },
+      {
+        "rank": 4,
         "team": "Zenakalm",
         "points": 8,
         "played": 5,
@@ -414,17 +425,6 @@
         "lost": 1,
         "sets": 30,
         "previous": "2A · 1e"
-      },
-      {
-        "rank": 4,
-        "team": "Foosforce",
-        "points": 6,
-        "played": 4,
-        "won": 3,
-        "drawn": 0,
-        "lost": 1,
-        "sets": 28,
-        "previous": "1A · 1e"
       },
       {
         "rank": 5,
@@ -472,17 +472,6 @@
       },
       {
         "rank": 9,
-        "team": "Paradijske ('t)",
-        "points": 0,
-        "played": 4,
-        "won": 0,
-        "drawn": 0,
-        "lost": 4,
-        "sets": -40,
-        "previous": "2A · 2e"
-      },
-      {
-        "rank": 10,
         "team": "De Zwaluw",
         "points": 0,
         "played": 5,
@@ -491,6 +480,17 @@
         "lost": 5,
         "sets": -42,
         "previous": "1A · 8e"
+      },
+      {
+        "rank": 10,
+        "team": "Paradijske ('t)",
+        "points": 0,
+        "played": 5,
+        "won": 0,
+        "drawn": 0,
+        "lost": 5,
+        "sets": -52,
+        "previous": "2A · 2e"
       }
     ]
   },
